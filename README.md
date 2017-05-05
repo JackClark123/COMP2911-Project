@@ -13,12 +13,16 @@ classes:
 -Map
 -
 
-Shenghan Gao: 
+Wednesday At the latest???
 
-Scott Wu: Buttons, keyboard listener, 
+Shenghan Gao: Map Generation 
 
-Kev Lu:
+Scott Wu: Buttons, keyboard listener, Player
 
-Akmal Ikraam:
+Kev Lu: Images
 
-Jack Clark: 
+Akmal Ikraam: UML
+
+Jack Clark: Wall, Box, Cross
+
+
