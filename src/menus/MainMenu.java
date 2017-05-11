@@ -18,21 +18,33 @@ public class MainMenu extends State{
 	}
 	
 	public void draw(Graphics2D g){
-		ImageIcon img = new ImageIcon("Images/temp.png");
+		ImageIcon img = new ImageIcon("Images/background.png");
 		Image background = img.getImage();
 		g.drawImage(background, 0, 0, 1280, 900, null);
+		
+		img = new ImageIcon("Images/title.png");
+		Image title = img.getImage();
+		g.drawImage(title, 240, -50, 800, 300, null);
 
-		img = new ImageIcon("Images/temp2.png");
-		Image name = img.getImage();
-		g.drawImage(name, 400, 25, 500, 200, null);
+		img = new ImageIcon("Images/menuBackground.jpg");
+		Image menubackground = img.getImage();
+		g.drawImage(menubackground, 539, 324, 202, 415, null);
 		
-		img = new ImageIcon("Images/temp3.png");
+		img = new ImageIcon("Images/newGame.png");
 		Image button1 = img.getImage();
-		g.drawImage(button1, 550, 400, 200, 100, null);
+		g.drawImage(button1, 540, 325, 200, 100, null);
 		
-		img = new ImageIcon("Images/temp4.png");
+		img = new ImageIcon("Images/options.png");
 		Image button2 = img.getImage();
-		g.drawImage(button2, 550, 650, 200, 100, null);
+		g.drawImage(button2, 540, 430, 200, 100, null);
+		
+		img = new ImageIcon("Images/howToPlay.png");
+		Image button3 = img.getImage();
+		g.drawImage(button3, 540, 535, 200, 100, null);
+		
+		img = new ImageIcon("Images/exit.png");
+		Image button4 = img.getImage();
+		g.drawImage(button4, 540, 640, 200, 100, null);
 	}
 
 	@Override
