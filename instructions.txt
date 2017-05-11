@@ -1,0 +1,15 @@
+Objective:
+
+You objective in this game is to push all the boxes scattered around the warehouse onto shelves to clean up the place. You
+will be scored based upon how many moves you take to solve the puzzle compared to our optimal solution, so think carefully
+before you move.
+
+To push a box you stand next to it and move your character into it. If a box is obstructed by another box or wall in the 
+direction of push, the box will not move. It is also important to note you cannot pull boxes so don't waste your time trying.
+
+Controls:
+
+W - Move up
+S - Move down
+A - Move left
+D - Move right
