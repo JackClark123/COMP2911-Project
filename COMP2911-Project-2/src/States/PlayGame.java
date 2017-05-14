@@ -40,7 +40,7 @@ public class PlayGame extends JPanel implements State, KeyListener{
 		map.generateMap();
 
 		info = new GameInfo(900, 0, "novice");
-		player = new Player(map.getPlayerX(), map.getPlayerY(), map.GRIDSPACING, map.GRIDSPACING);
+		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
 		
 		this.addKeyListener(player);
 		this.addKeyListener(this);

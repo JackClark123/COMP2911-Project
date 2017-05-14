@@ -49,7 +49,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		map.generateMap();
 
 		info = new GameInfo(900, 0, "expert");
-		player = new Player(map.getPlayerX(), map.getPlayerY(), map.GRIDSPACING, map.GRIDSPACING);
+		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
 		
 		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
 		restart.setPosition(1040, 580);
@@ -131,7 +131,9 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	public void restartMap() {
 		map.resetMap(player);
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		this.addKeyListener(player);
+		if (this.getKeyListeners() == null) {
+			this.addKeyListener(player);
+		}
 		map.setNumBoxesInPlace(0);
 	}
 

@@ -2,6 +2,7 @@ package Map;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ReadFile {
@@ -12,7 +13,7 @@ public class ReadFile {
 
 	public ReadFile(String filename) {
 		
-		map = new Map(10, 10);
+		map = new Map();
 		
 		sc = null;
 		try {
@@ -33,9 +34,11 @@ public class ReadFile {
 	}
 	
 	private void lineHandler(char[] line, int linenumber) {
+		ArrayList<Integer> row = new ArrayList<Integer>();
 		for (int i = 0; i < line.length; i++) {
-			map.setMapValue(i, linenumber, Character.getNumericValue(line[i]));
+			row.add(Character.getNumericValue(line[i]));
 		}
+		map.addRow(row);
 	}
 
 	public Map getMap() {

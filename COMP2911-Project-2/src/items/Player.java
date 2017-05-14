@@ -34,6 +34,14 @@ public class Player extends JComponent implements KeyListener{
 		g.drawImage(player, posX * spacing, posY * spacing, size, size, null);
 	}
 	
+	public int getSpacing() {
+		return spacing;
+	}
+
+	public void setSpacing(int spacing) {
+		this.spacing = spacing;
+	}
+
 	public void setPosition(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;

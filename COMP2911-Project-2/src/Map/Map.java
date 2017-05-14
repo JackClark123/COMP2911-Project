@@ -23,33 +23,36 @@ public class Map {
 	private List<Box> boxes;
 	private List<Cross> crosses;
 	
+	private ArrayList<ArrayList<Integer>> mapArrayList;
+	private ArrayList<ArrayList<Integer>> orginalMapArrayList;
+	
 	private int playerX, playerY;
-	private int sizeX, sizeY;
 	private int numBoxesInPlace = 0;
 	private int numCrosses = 0;
 	
-	public final int SPACING = 80;
-	public final int GRIDSPACING = 90;
+	private int gridSpacing;
 	
-	private int mapArray[][];
-	private int orginalMap[][];
+	public int getGridSpacing() {
+		return gridSpacing;
+	}
 
-	public Map(int sizeX, int sizeY) {
-		
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
-		mapArray = new int[sizeX][sizeY];
-		orginalMap = new int[sizeX][sizeY];
+	public void setGridSpacing(int gridSpacing) {
+		this.gridSpacing = gridSpacing;
+	}
+
+	public Map() {
 		
 		walls = new ArrayList<Wall>();
 		boxes = new ArrayList<Box>();
 		crosses = new ArrayList<Cross>();
-		
+		mapArrayList = new ArrayList<ArrayList<Integer>>();
+		orginalMapArrayList = new ArrayList<ArrayList<Integer>>();
 	}
 	
-	public void setMapValue(int x, int y, int value) {
-		mapArray[x][y] = value;
+	public void addRow(ArrayList<Integer> row) {
+		mapArrayList.add(row);
 	}
+	
 	
 	public boolean mapComplete() {
 		if (numBoxesInPlace == numCrosses) {
@@ -66,9 +69,9 @@ public class Map {
 			for (Wall temp2 : walls) {
 				if (temp1.getX() == temp2.getX() && temp1.getY() == temp2.getY()) {
 					player.incrementPosition(-deltaX, -deltaY);
-					mapArray[temp1.getX()][temp1.getY()] = EMPTY;
+					mapArrayList.set(temp1.getY(), mapArrayList.get(temp1.getY())).set(temp1.getX(), EMPTY);
 					temp1.incrementPosition(-deltaX, -deltaY);
-					mapArray[temp1.getX()][temp1.getY()] = BOX;
+					mapArrayList.set(temp1.getY(), mapArrayList.get(temp1.getY())).set(temp1.getX(), BOX);
 					setBack = true;
 				}
 			}
@@ -77,12 +80,12 @@ public class Map {
 				if (!temp1.equals(temp2) && temp1.getX() == temp2.getX() && temp1.getY() == temp2.getY()) {
 					player.incrementPosition(-deltaX, -deltaY);
 					temp1.incrementPosition(-deltaX, -deltaY);
-					mapArray[temp1.getX()][temp1.getY()] = BOX;
+					mapArrayList.set(temp1.getY(), mapArrayList.get(temp1.getY())).set(temp1.getX(), BOX);
 					setBack = true;
 				}
 			}
 			
-			if (orginalMap[temp1.getX()][temp1.getY()] == CROSS) {
+			if (orginalMapArrayList.get(temp1.getY()).get(temp1.getX()) == CROSS) {
 				numBoxes++;
 			}
 			
@@ -96,22 +99,22 @@ public class Map {
 	}
 	
 	public void playerCollisonHandling(int posX, int posY, int prevX, int prevY, Player player) {
-		if (posX >= 0 && posX < sizeX && posY >= 0 && posY < sizeY) {
-			if (mapArray[posX][posY] != EMPTY && mapArray[posX][posY] != PLAYER && mapArray[posX][posY] != CROSS) {
+		if (posX >= 0 && posX < mapArrayList.size() && posY >= 0 && posY < mapArrayList.get(posY).size()) {
+			if (mapArrayList.get(posY).get(posX) != EMPTY && mapArrayList.get(posY).get(posX) != PLAYER && mapArrayList.get(posY).get(posX) != CROSS) {
 				
-				if (mapArray[posX][posY] == WALL) {
+				if (mapArrayList.get(posY).get(posX) == WALL) {
 					player.setPosX(prevX);
 					player.setPosY(prevY);
-				} else if (mapArray[posX][posY] == BOX) {
+				} else if (mapArrayList.get(posY).get(posX) == BOX) {
 					int deltaX = posX - prevX;
 					int deltaY = posY - prevY;
 					int newX = posX + deltaX;
 					int newY = posY + deltaY;
 					
-					mapArray[posX][posY] = 0;
+					mapArrayList.set(posY, mapArrayList.get(posY)).set(posX, EMPTY);
 					
-					if (newX >= 0 && newX < sizeX && newY >= 0 && newY < sizeY) {
-						mapArray[newX][newY] = BOX;
+					if (newX >= 0 && newX < mapArrayList.size() && newY >= 0 && newY < mapArrayList.get(0).size()) {
+						mapArrayList.set(newY, mapArrayList.get(newY)).set(newX, BOX);
 					}
 					
 					for (Box temp : boxes) {
@@ -131,36 +134,32 @@ public class Map {
 		
 	}
 	
-	public void copyArray(int[][] from, int[][] to) {
-		for (int i = 0; i < from.length; i++) {
-			for (int j = 0; j < from[i].length; j++) {
-				to[i][j] = from[i][j];
-			}
-		}
-	}
-	
 	public void resetMap(Player player) {
 		player.setMoves(0);
-		copyArray(orginalMap, mapArray);
+		player.setSpacing(gridSpacing);
+		
+		mapArrayList = copy(orginalMapArrayList);
+		//copy orginalMap to mapArrayList
+		
 		Iterator<Wall> wallIterator = walls.iterator();
 		Iterator<Box> boxIterator = boxes.iterator();
 		Iterator<Cross> crossIterator = crosses.iterator();
-		for (int i = 0; i < sizeX; i++) {
-			for (int j = 0; j < sizeY; j++) {
-				if (orginalMap[i][j] == WALL) {
+		for (int i = 0; i < mapArrayList.size(); i++) {
+			for (int j = 0; j < mapArrayList.get(i).size(); j++) {
+				if (mapArrayList.get(i).get(j) == WALL) {
 					if (wallIterator.hasNext()) {
-						wallIterator.next().setPosition(i, j);
+						wallIterator.next().setPosition(j, i);
 					}
-				} else if (orginalMap[i][j] == PLAYER) {
-					setPlayerX(i);
-					setPlayerY(j);
-				} else if (orginalMap[i][j] == BOX) {
+				} else if (mapArrayList.get(i).get(j) == PLAYER) {
+					setPlayerX(j);
+					setPlayerY(i);
+				} else if (mapArrayList.get(i).get(j) == BOX) {
 					if (boxIterator.hasNext()) {
-						boxIterator.next().setPosition(i, j);
+						boxIterator.next().setPosition(j, i);
 					}
-				} else if (orginalMap[i][j] == CROSS) {
+				} else if (mapArrayList.get(i).get(j) == CROSS) {
 					if (crossIterator.hasNext()) {
-						crossIterator.next().setPosition(i, j);
+						crossIterator.next().setPosition(j, i);
 					}
 				}
 				
@@ -168,9 +167,50 @@ public class Map {
 		}
 	}
 	
+	public static ArrayList<ArrayList<Integer>> copy(ArrayList<ArrayList<Integer>> input) {
+	    ArrayList<ArrayList<Integer>> copy = new ArrayList<ArrayList<Integer>>(input.size());
+	    
+	    for(int i = 0; i < input.size(); i++) {
+	        ArrayList<Integer> line = input.get(i);
+	        
+	        copy.add(i, new ArrayList<Integer>(line.size()));
+	        
+	        for(int j = 0; j < line.size(); j++) {
+	            copy.get(i).add(j, line.get(j)); //
+	        }
+	    }
+	    return copy;
+	}
+	
 	public void generateMap() {
-		copyArray(mapArray, orginalMap);
+		//copy mapArray to orginalMap
+		orginalMapArrayList = copy(mapArrayList);
 		
+		
+		gridSpacing = 900 / mapArrayList.size();
+		
+		for (int i = 0; i < mapArrayList.size(); i++) {
+			for (int j = 0; j < mapArrayList.get(i).size(); j++) {
+				if (mapArrayList.get(i).get(j) == WALL) {
+					Wall wall = new Wall(j, i, gridSpacing, gridSpacing);
+					walls.add(wall);
+				} else if (mapArrayList.get(i).get(j) == PLAYER) {
+					mapArrayList.set(i, mapArrayList.get(i)).set(j, EMPTY);
+					setPlayerX(j);
+					setPlayerY(i);
+				} else if (mapArrayList.get(i).get(j) == BOX) {
+					Box box = new Box(j, i, gridSpacing, gridSpacing);
+					boxes.add(box);
+				} else if (mapArrayList.get(i).get(j) == CROSS) {
+					numCrosses++;
+					Cross cross = new Cross(j, i, gridSpacing, gridSpacing);
+					crosses.add(cross);
+				}
+				
+			}
+		}
+		
+		/*
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
 				if (orginalMap[i][j] == WALL) {
@@ -190,14 +230,14 @@ public class Map {
 				}
 				
 			}
-		}
+		}*/
 	}
 	
 	public void paintGrid(Graphics g) {
-		for (int i = 0; i < sizeX; i++) {
-			for (int j = 0; j < sizeY; j++) {
+		for (int i = 0; i < mapArrayList.size(); i++) {
+			for (int j = 0; j < mapArrayList.get(i).size(); j++) {
 				g.setColor(Color.DARK_GRAY);
-				g.drawRect(i * GRIDSPACING, j * GRIDSPACING, GRIDSPACING, GRIDSPACING);
+				g.drawRect(i * gridSpacing, j * gridSpacing, gridSpacing, gridSpacing);
 			}
 		}
 	}
