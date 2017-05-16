@@ -7,4 +7,6 @@ public interface GameState {
 	public void paint(Graphics g);
 	
 	public void restartMap();
+	
+	public void undo();
 }

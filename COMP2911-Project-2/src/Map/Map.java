@@ -11,7 +11,7 @@ import items.Cross;
 import items.Player;
 import items.Wall;
 
-public class Map {
+public class Map implements Cloneable{
 	
 	private final int EMPTY = 0;
 	private final int WALL = 1;
@@ -21,9 +21,26 @@ public class Map {
 	
 	private List<Wall> walls;
 	private List<Box> boxes;
+	
+	public List<Box> getBoxes() {
+		return boxes;
+	}
+
+	public void setBoxes(List<Box> boxes) {
+		this.boxes = boxes;
+	}
+
 	private List<Cross> crosses;
 	
 	private ArrayList<ArrayList<Integer>> mapArrayList;
+	
+	public ArrayList<ArrayList<Integer>> getMapArrayList() {
+		return mapArrayList;
+	}
+	public void setMapArrayList(ArrayList<ArrayList<Integer>> mapArrayList) {
+		this.mapArrayList = mapArrayList;
+	}
+
 	private ArrayList<ArrayList<Integer>> orginalMapArrayList;
 	
 	private int playerX, playerY;
@@ -47,6 +64,23 @@ public class Map {
 		crosses = new ArrayList<Cross>();
 		mapArrayList = new ArrayList<ArrayList<Integer>>();
 		orginalMapArrayList = new ArrayList<ArrayList<Integer>>();
+	}
+	public Map clone(){
+		//may clone other staff
+		Map o = null;
+		try{ 
+			o = (Map)super.clone();
+			List<Box> boxesNew = new ArrayList<Box>();
+			for(int i = 0 ;i<boxes.size();i++){
+				Box box = new Box(boxes.get(i).getX(),boxes.get(i).getY(), gridSpacing, gridSpacing);
+				boxesNew.add(box);
+			}
+			o.setBoxes(boxesNew);
+			o.setMapArrayList(copy(this.mapArrayList));
+		}catch(CloneNotSupportedException e){ 
+			e.printStackTrace(); 
+		} 
+			return o;  
 	}
 	
 	public void addRow(ArrayList<Integer> row) {
@@ -99,6 +133,7 @@ public class Map {
 	}
 	
 	public void playerCollisonHandling(int posX, int posY, int prevX, int prevY, Player player) {
+		//System.out.println("be really desled is " + getBoxes());
 		if (posX >= 0 && posX < mapArrayList.size() && posY >= 0 && posY < mapArrayList.get(posY).size()) {
 			if (mapArrayList.get(posY).get(posX) != EMPTY && mapArrayList.get(posY).get(posX) != PLAYER && mapArrayList.get(posY).get(posX) != CROSS) {
 				
