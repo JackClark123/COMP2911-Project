@@ -8,77 +8,127 @@ import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-public class player extends JComponent implements KeyListener{
-	private int x, y;
-	private int iniX, iniY;
+public class Player extends JComponent implements KeyListener{
 	
-	private final String url;
+	private static final long serialVersionUID = 1L;
+	
+	private final String playerImage = "Images/player.png";
+	private int posX, posY, size, spacing;
+	private int prevX, prevY;
 	private ImageIcon img;
 	
-	private int size, spacing;
+	private int moves = 0;
+	private boolean moving = false;
 	
-	private int moveCount;
-	private boolean moved;
-	
-	
-	public player(int X, int Y, int spacing, int size, String url){
-		this.iniX = X;
-		this.iniY = Y;
-		this.x = X;
-		this.y = Y;
-		this.url = url;
-		
-		this.spacing = spacing;
+	public Player(int posX, int posY, int size, int spacing) {
+		this.posX = posX;
+		this.posY = posY;
 		this.size = size;
-		moveCount = 0;
-		moved = false;
+		this.spacing = spacing;
 		this.addKeyListener(this);
-		this.img = new ImageIcon(url);
+		img = new ImageIcon(playerImage);
 	}
-	
-	public void reset(){
-		this.x = this.iniX;
-		this.y = this.iniY;
-		moveCount = 0;
-	}
-	
-	public int getMoveCount(){
-		return moveCount;
-	}
-	
-	public void drawPlayer(Graphics g){
+
+	public void paintComponent(Graphics g) {		
 		Image player = img.getImage();
-		g.drawImage(player, x, y, size, size, null);
+		g.drawImage(player, posX * spacing, posY * spacing, size, size, null);
 	}
 	
+	public int getSpacing() {
+		return spacing;
+	}
+
+	public void setSpacing(int spacing) {
+		this.spacing = spacing;
+	}
+
+	public void setPosition(int posX, int posY) {
+		this.posX = posX;
+		this.posY = posY;
+	}
+	
+	public void incrementPosition(int deltaX, int deltaY) {
+		posX += deltaX;
+		posY += deltaY;
+	}
+	
+	public int getMoves() {
+		return moves;
+	}
+
+	public void setMoves(int moves) {
+		this.moves = moves;
+	}
+	
+	public void incrementMoves() {
+		if (moving) {
+			moves++;
+			moving = false;
+		}
+	}
+
+	public int getPrevX() {
+		return prevX;
+	}
+
+	public void setPrevX(int prevX) {
+		this.prevX = prevX;
+	}
+
+	public int getPrevY() {
+		return prevY;
+	}
+
+	public void setPrevY(int prevY) {
+		this.prevY = prevY;
+	}
+
+	public int getPosX() {
+		return posX;
+	}
+
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	public int getPosY() {
+		return posY;
+	}
+
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
+
+	public int imgSize() {
+		return size;
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-//		prevX = posX;
-//		prevY = posY;
+		prevX = posX;
+		prevY = posY;
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			y--;
-			//moving = true;
+			posY--;
+			moving = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			y++;
-//			moving = true;
+			posY++;
+			moving = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			x--;
-//			moving = true;
+			posX--;
+			moving = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			x++;
-//			moving = true;
+			posX++;
+			moving = true;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -25,7 +25,7 @@ public class MainMenu extends JPanel implements State, MouseMotionListener{
 		startButton = new Button("Images/startButtonUp.png", "Images/startButtonDown.png", "diffselect", pc);
 		startButton.setPosition(100, 350);
 		
-		howToPlayButton = new Button("Images/howToPlayButtonUp.png", "Images/howToPlayButtonDown.png", "howtoplay", pc);
+		howToPlayButton = new Button("Images/howToPlayButtonUp.png", "Images/howToPlayButtonDown.png", "objective", pc);
 		howToPlayButton.setPosition(100, 440);
 		
 		exitButton = new Button("Images/exitButtonUp.png", "Images/exitButtonDown.png", "exit", pc);

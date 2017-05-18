@@ -13,6 +13,9 @@ import States.Intermediate;
 import States.Novice;
 import States.MainMenu;
 import States.PlayGame;
+import States.Options;
+import States.Objective;
+import States.Movement;
 
 public class PanelController extends JPanel{
 	
@@ -22,15 +25,21 @@ public class PanelController extends JPanel{
 	
 	private MainMenu mainmenu;
 	private PlayGame game;
-	private HowToPlay howToPlay;
+	//private HowToPlay howToPlay;
 	private DifficultySelect diffSelect;
 	private JFrame frame;
 	private Novice novice;
 	private Intermediate intermediate;
 	private Expert expert;
+	private Options options;
+	private Objective objective;
+	private Movement movement;
+	
+	private String currentDifficulty;
 	
 	public PanelController(JFrame frame) {
 		this.frame = frame;
+		this.currentDifficulty = null;
 		
 		cardLayout = new CardLayout();
 		this.setPreferredSize(new Dimension(1280, 900));
@@ -39,19 +48,25 @@ public class PanelController extends JPanel{
 		
 		mainmenu = new MainMenu(this);
 		game = new PlayGame(this);
-		howToPlay = new HowToPlay(this);
+		//howToPlay = new HowToPlay(this);
 		diffSelect = new DifficultySelect(this);
 		novice = new Novice(this);
 		intermediate = new Intermediate(this);
 		expert = new Expert(this);
+		options = new Options(this);
+		objective = new Objective(this);
+		movement = new Movement(this);
 		
 		this.add(mainmenu, "mainmenu");
 		this.add(game, "game");
-		this.add(howToPlay, "howtoplay");
+		//this.add(howToPlay, "howToPlay");
 		this.add(diffSelect, "diffselect");
 		this.add(novice, "novice");
 		this.add(intermediate, "intermediate");
 		this.add(expert, "expert");
+		this.add(options, "options");
+		this.add(objective, "objective");
+		this.add(movement, "movement");
 	}
 	
 	public void setPanel(String panelName) {
@@ -61,8 +76,18 @@ public class PanelController extends JPanel{
 		cardLayout.show(this, panelName);
 	}
 	
+	public void setCurrentDifficulty(String panelName){
+		if(panelName.equals("novice")){
+			currentDifficulty = "novice";
+		}else if(panelName.equals("intermediate")){
+			currentDifficulty = "intermediate";
+		}else if(panelName.equals("expert")){
+			currentDifficulty = "expert";
+		}
+	}
 	
-	
-	
+	public String getCurrentDifficulty(){
+		return currentDifficulty;
+	}
 
 }

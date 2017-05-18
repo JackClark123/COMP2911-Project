@@ -74,10 +74,11 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 			
 			if (nextState.equals("restart")) {
 				gs.restartMap();
-			} else {
+			}else{
 				if (nextState.equals("diffselect") && gs != null) {
 					gs.restartMap();
 				}
+				pc.setCurrentDifficulty(nextState);
 				pc.setPanel(nextState);
 			}
 		}
@@ -108,15 +109,11 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		
 	}
 
-
-
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
