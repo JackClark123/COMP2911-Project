@@ -85,6 +85,14 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		
 	}
 
+	public String getNextState() {
+		return nextState;
+	}
+
+	public void setNextState(String nextState) {
+		this.nextState = nextState;
+	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

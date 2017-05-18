@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import States.DifficultySelect;
 import States.Expert;
-import States.HowToPlay;
 import States.Intermediate;
 import States.Novice;
 import States.MainMenu;

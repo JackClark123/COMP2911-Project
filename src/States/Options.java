@@ -1,6 +1,5 @@
 package States;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -18,9 +17,12 @@ public class Options extends JPanel implements State, MouseMotionListener {
 	private ImageIcon background;
 	private Image img;
 	private Button difficulty, returnToMM, exitButton, returnToGame;
-	private String currDifficulty;
+	private PanelController pc;
 	
 	public Options(PanelController pc){
+		
+		this.pc = pc;
+		
 		background = new ImageIcon("Images/pauseBackground.png");
 		img = background.getImage();
 		
@@ -30,9 +32,7 @@ public class Options extends JPanel implements State, MouseMotionListener {
 		returnToMM = new Button("Images/mainMenuButtonUp.png", "Images/mainMenuButtonDown.png", "mainmenu", pc);
 		returnToMM.setPosition(475, 390);
 		
-		currDifficulty = pc.getCurrentDifficulty();
-		
-		returnToGame = new Button("Images/resumeButtonUp.png", "Images/resumeButtonDown.png", currDifficulty, pc);
+		returnToGame = new Button("Images/resumeButtonUp.png", "Images/resumeButtonDown.png", pc.getCurrentDifficulty(), pc);
 		returnToGame.setPosition(475, 480);
 		
 		exitButton = new Button("Images/exitButtonUp.png", "Images/exitButtonDown.png", "exit", pc);
@@ -72,7 +72,7 @@ public class Options extends JPanel implements State, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		repaint();
+		returnToGame.setNextState(pc.getCurrentDifficulty());
 	}
 }
