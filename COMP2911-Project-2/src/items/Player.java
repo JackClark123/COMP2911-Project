@@ -74,6 +74,10 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 			moving = false;
 		}
 	}
+	
+	public void decrementMoves(){
+		moves--;
+	}
 
 	public int getPrevX() {
 		return prevX;

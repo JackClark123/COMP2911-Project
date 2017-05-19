@@ -169,6 +169,10 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	@Override
 	public void undo() {
 		playerStack.pop();
+		if(mapStack.isEmpty()){
+			return;
+		}
+		
 		if(playerStack.isEmpty()){
 			return;
 		}
@@ -177,6 +181,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		//playerStack.pop();
 		player.setPosX(playerStack.peek().getPosX());
 		player.setPosY(playerStack.peek().getPosY());
+		player.decrementMoves();
 		repaint();
 		
 	}
