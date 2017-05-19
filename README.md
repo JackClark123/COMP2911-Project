@@ -5,25 +5,17 @@ Sprint
 -design (UML)
 -code
 
-Tasks
-
-classes:
--Player
--Box
--Map
--
-
 Wednesday At the latest???
 
 Shenghan Gao: Map Generation 
 
-Scott Wu: Buttons, keyboard listener, Player
+Scott Wu: Map generation 
 
-Kev Lu: Images
+Kev Lu: 10 predfined levels for each difficulty, How to play 
 
-Akmal Ikraam: UML
+Akmal Ikraam: UML, Map generation 
 
-Jack Clark: Wall, Box, Cross
+Jack Clark: Multiplayer, (portal) 
 
 Demonstartion 
 9:40 - 10:00
