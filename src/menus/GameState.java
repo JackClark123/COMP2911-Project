@@ -25,6 +25,6 @@ public class GameState {
 	}
 
 	public void mousePressed(KeyEvent e) {
-		newState.MousePressed(e.getX(), e.getY());
+		//newState.MousePressed(e.getX(), e.getY());
 	}
 }

@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-public class Player extends JComponent implements KeyListener{
+public class Player extends JComponent implements KeyListener,Cloneable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -28,7 +28,17 @@ public class Player extends JComponent implements KeyListener{
 		this.addKeyListener(this);
 		img = new ImageIcon(playerImage);
 	}
-
+	
+	public Player clone(){
+		Player o = null;
+		try{
+			o = (Player)super.clone();
+		}catch(CloneNotSupportedException e){ 
+			e.printStackTrace(); 
+		} 
+		return o;
+	}
+	
 	public void paintComponent(Graphics g) {		
 		Image player = img.getImage();
 		g.drawImage(player, posX * spacing, posY * spacing, size, size, null);

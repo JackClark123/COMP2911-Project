@@ -74,6 +74,8 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 			
 			if (nextState.equals("restart")) {
 				gs.restartMap();
+			}else if (nextState.equals("undo")){
+				gs.undo();
 			}else{
 				if (nextState.equals("diffselect") && gs != null) {
 					gs.restartMap();

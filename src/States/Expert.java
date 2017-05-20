@@ -137,4 +137,10 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		map.setNumBoxesInPlace(0);
 	}
 
+	@Override
+	public void undo() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

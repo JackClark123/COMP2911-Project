@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -31,7 +32,10 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	private ImageIcon background;
 	private Image img;
 	
-	private Button restart, difficulty, next;
+	private Stack<Map> mapStack;
+	private Stack<Player> playerStack;
+	
+	private Button restart, difficulty, next,undo;
 
 	public Novice(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
@@ -49,9 +53,18 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		file = new ReadFile("input.txt");
 		map = file.getMap();
 		map.generateMap();
+		//
+		mapStack = new Stack<Map>();
+		Map mapPre = map.clone();
+		mapStack.push(mapPre);
 
 		info = new GameInfo(900, 0, "novice");
 		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
+		//
+		Player playerPre = player.clone();
+		playerStack = new Stack<Player>();
+		playerStack.push(playerPre);
+
 
 		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
 		restart.setPosition(1040, 580);
@@ -59,10 +72,14 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		difficulty = new Button("Images/difficultyButtonUp.png", "Images/difficultyButtonDown.png", "diffselect", pc, this);
 		difficulty.setPosition(940, 690);
 		
+		//new
+		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
+		undo.setPosition(1140, 480);
+		
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "novice", pc);
 		next.setPosition(940, 780);
 		
-		this.addKeyListener(player);
+		//this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
 		this.addMouseListener(difficulty);
@@ -71,7 +88,9 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		this.addMouseMotionListener(next);
 		this.addMouseListener(restart);
 		this.addMouseMotionListener(restart);
-		
+		this.addMouseListener(undo);
+		this.addMouseMotionListener(undo);
+		this.add(undo);
 		this.add(restart);
 		this.add(difficulty);
 		this.add(next);
@@ -103,7 +122,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		}
 
 		info.print(g);
-		
+		undo.paint(g);
 		restart.paint(g);
 		difficulty.paint(g);
 		next.paint(g);
@@ -117,6 +136,14 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		player.keyPressed(e);
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		
+		Map mapPre = map.clone();
+		mapStack.push(mapPre);
+		
+		Player playerpre = player.clone();
+		playerStack.push(playerpre);
 		repaint();
 	}
 
@@ -135,6 +162,30 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		repaint();
+	}
+
+	@Override
+	public void undo() {
+		//
+		if(playerStack.isEmpty()){
+			return;
+		}
+		if(mapStack.isEmpty()){
+			return;
+		}
+		playerStack.pop();
+		mapStack.pop();
+		if(playerStack.isEmpty()){
+			return;
+		}
+		if(mapStack.isEmpty()){
+			return;
+		}
+		map = mapStack.peek();
+		player.setPosX(playerStack.peek().getPosX());
+		player.setPosY(playerStack.peek().getPosY());
+		repaint();
+		
 	}
 
 }
