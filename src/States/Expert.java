@@ -29,7 +29,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	private Player player;
 	private ImageIcon background;
 	private Image img;
-	private Button restart, difficulty, next;
+	private Button restart, options, next;
 
 	public Expert(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
@@ -54,8 +54,8 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
 		restart.setPosition(1040, 580);
 		
-		difficulty = new Button("Images/difficultyButtonUp.png", "Images/difficultyButtonDown.png", "diffselect", pc, this);
-		difficulty.setPosition(940, 690);
+		options = new Button("Images/optionsButtonUp.png", "Images/optionsButtonDown.png", "options", pc, this);
+		options.setPosition(940, 690);
 		
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "expert", pc);
 		next.setPosition(940, 780);
@@ -63,15 +63,15 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
-		this.addMouseListener(difficulty);
-		this.addMouseMotionListener(difficulty);
+		this.addMouseListener(options);
+		this.addMouseMotionListener(options);
 		this.addMouseListener(next);
 		this.addMouseMotionListener(next);
 		this.addMouseListener(restart);
 		this.addMouseMotionListener(restart);
 		
 		this.add(restart);
-		this.add(difficulty);
+		this.add(options);
 		this.add(next);
 		this.add(player);
 	}
@@ -94,7 +94,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		info.print(g);
 		
 		restart.paint(g);
-		difficulty.paint(g);
+		options.paint(g);
 		next.paint(g);
 	
 	}
