@@ -30,6 +30,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	
 	private GameInfo info;
 	private Player player;
+	private boolean listenerActive = true;
 	
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
@@ -115,6 +116,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		
 		if (map.mapComplete() == true) {
 			this.removeKeyListener(player);
+			listenerActive = false;
 		}
 
 		info.print(g);
@@ -164,8 +166,9 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	public void restartMap() {
 		map.resetMap(player);
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (this.getKeyListeners() == null) {
+		if (listenerActive == false) {
 			this.addKeyListener(player);
+			listenerActive = true;
 		}
 		map.setNumBoxesInPlace(0);
 	}

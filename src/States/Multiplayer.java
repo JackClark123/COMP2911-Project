@@ -109,8 +109,8 @@ public class Multiplayer extends JPanel implements GameState, KeyListener, Mouse
 		fileRight = new ReadFile("MultiPlayerLevels/levelRight.txt");
 		mapRight = fileRight.getMultiplayerMap();
 		mapRight.clearALL();
-		mapRight.placeBoxesAndCrosses(textBox.getNum(), seed);
 		mapRight.setOffset(1280/2);
+		mapRight.placeBoxesAndCrosses(textBox.getNum(), seed);
 		mapRight.generateMap();
 		
 		repaint();

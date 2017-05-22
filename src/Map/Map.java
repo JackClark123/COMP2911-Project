@@ -2,16 +2,28 @@ package Map;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import items.Box;
 import items.Cross;
 import items.Player;
 import items.Wall;
 
-public class Map implements Cloneable{
+public class Map implements Cloneable, LineListener {
 	
 	private final int EMPTY = 0;
 	private final int WALL = 1;
@@ -97,6 +109,35 @@ public class Map implements Cloneable{
 		return false;
 	}
 	
+	void play(String audioFilePath) {
+        File audioFile = new File(audioFilePath);
+ 
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+ 
+            AudioFormat format = audioStream.getFormat();
+ 
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+ 
+            Clip audioClip = (Clip) AudioSystem.getLine(info);
+ 
+            audioClip.addLineListener(this);
+ 
+            audioClip.open(audioStream);
+             
+            audioClip.start();
+             
+             
+        } catch (UnsupportedAudioFileException ex) {
+            ex.printStackTrace();
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+         
+    }
+	
 	private void itemCollisionHandling(int deltaX, int deltaY, Player player) {
 		boolean setBack = false;
 		int numBoxes = 0;
@@ -123,6 +164,9 @@ public class Map implements Cloneable{
 			
 			if (orginalMapArrayList.get(temp1.getY()).get(temp1.getX()) == CROSS) {
 				numBoxes++;
+				if (numBoxes > numBoxesInPlace) {
+					play("Sounds/correct.wav");
+				}
 			}
 			
 		}
@@ -245,28 +289,6 @@ public class Map implements Cloneable{
 				
 			}
 		}
-		
-		/*
-		for (int i = 0; i < sizeX; i++) {
-			for (int j = 0; j < sizeY; j++) {
-				if (orginalMap[i][j] == WALL) {
-					Wall wall = new Wall(i, j, GRIDSPACING, GRIDSPACING);
-					walls.add(wall);
-				} else if (orginalMap[i][j] == PLAYER) {
-					mapArray[i][j] = EMPTY;
-					setPlayerX(i);
-					setPlayerY(j);
-				} else if (orginalMap[i][j] == BOX) {
-					Box box = new Box(i, j, GRIDSPACING, GRIDSPACING);
-					boxes.add(box);
-				} else if (orginalMap[i][j] == CROSS) {
-					numCrosses++;
-					Cross cross = new Cross(i, j, GRIDSPACING, GRIDSPACING);
-					crosses.add(cross);
-				}
-				
-			}
-		}*/
 	}
 	
 	public void paintGrid(Graphics g) {
@@ -325,6 +347,11 @@ public class Map implements Cloneable{
 
 	public void setNumBoxesInPlace(int numBoxesInPlace) {
 		this.numBoxesInPlace = numBoxesInPlace;
+	}
+	@Override
+	public void update(LineEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -35,6 +35,8 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
 	
+	private boolean listenerActive = true;
+	
 	private Button restart, difficulty, next,undo;
 
 	public Novice(PanelController pc) {
@@ -101,8 +103,9 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	public void restartMap() {
 		map.resetMap(player);
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (this.getKeyListeners() == null) {
+		if (listenerActive == false) {
 			this.addKeyListener(player);
+			listenerActive = true;
 		}
 		map.setNumBoxesInPlace(0);
 	}
@@ -120,6 +123,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		
 		if (map.mapComplete() == true) {
 			this.removeKeyListener(player);
+			listenerActive = false;
 		}
 
 		info.print(g);
