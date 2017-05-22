@@ -35,7 +35,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
 	
-	private Button restart, options, next,undo;
+	private Button restart, difficulty, next,undo;
 
 	public Novice(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
@@ -69,8 +69,8 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
 		restart.setPosition(1040, 580);
 		
-		options = new Button("Images/optionsButtonUp.png", "Images/optionsButtonDown.png", "options", pc, this);
-		options.setPosition(940, 690);
+		difficulty = new Button("Images/difficultyButtonUp.png", "Images/difficultyButtonDown.png", "diffselect", pc, this);
+		difficulty.setPosition(940, 690);
 		
 		//new
 		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
@@ -82,8 +82,9 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		//this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
-		this.addMouseListener(options);
-		this.addMouseMotionListener(options);
+		this.addKeyListener(player);
+		this.addMouseListener(difficulty);
+		this.addMouseMotionListener(difficulty);
 		this.addMouseListener(next);
 		this.addMouseMotionListener(next);
 		this.addMouseListener(restart);
@@ -92,7 +93,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		this.addMouseMotionListener(undo);
 		this.add(undo);
 		this.add(restart);
-		this.add(options);
+		this.add(difficulty);
 		this.add(next);
 		this.add(player);
 	}
@@ -124,7 +125,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		info.print(g);
 		undo.paint(g);
 		restart.paint(g);
-		options.paint(g);
+		difficulty.paint(g);
 		next.paint(g);
 	}
 
@@ -136,8 +137,6 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		player.keyPressed(e);
-		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);

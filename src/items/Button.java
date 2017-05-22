@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import States.GameState;
+import States.Multiplayer;
 import Window.PanelController;
 
 
@@ -23,6 +24,7 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	private String nextState;
 	private PanelController pc;
 	private GameState gs;
+	private Multiplayer mp;
 
 	public Button(String image1, String image2, String nextState, PanelController pc) {
 		this.pc = pc;
@@ -34,6 +36,17 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	}
 	
 	public Button(String image1, String image2, String nextState, PanelController pc, GameState gs) {
+		this.pc = pc;
+		this.gs = gs;
+		img1 = new ImageIcon(image1);
+		img2 = new ImageIcon(image2);
+		this.nextState = nextState;
+		this.addMouseListener(this);
+		this.addMouseListener(this);
+	}
+	
+	public Button(String image1, String image2, String nextState, PanelController pc, GameState gs, Multiplayer mp) {
+		this.mp = mp;
 		this.pc = pc;
 		this.gs = gs;
 		img1 = new ImageIcon(image1);
@@ -76,7 +89,9 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 				gs.restartMap();
 			}else if (nextState.equals("undo")){
 				gs.undo();
-			}else{
+			} else if (nextState.equals("play")) {
+				mp.generateMaps();
+			} else {
 				if (nextState.equals("diffselect") && gs != null) {
 					gs.restartMap();
 				}

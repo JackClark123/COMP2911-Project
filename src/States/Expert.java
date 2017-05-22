@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -28,8 +29,11 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	private GameInfo info;
 	private Player player;
 	private ImageIcon background;
+	private Stack<Map> mapStack;
+	private Stack<Player> playerStack;
+	
 	private Image img;
-	private Button restart, options, next;
+	private Button restart, difficulty, next,undo;
 
 	public Expert(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
@@ -47,33 +51,47 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		file = new ReadFile("input.txt");
 		map = file.getMap();
 		map.generateMap();
+		mapStack = new Stack<Map>();
+		Map mapPre = map.clone();
+		mapStack.push(mapPre);
 
 		info = new GameInfo(900, 0, "expert");
 		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
 		
 		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
 		restart.setPosition(1040, 580);
+		Player playerPre = player.clone();
+		playerStack = new Stack<Player>();
+		playerStack.push(playerPre);
+
 		
-		options = new Button("Images/optionsButtonUp.png", "Images/optionsButtonDown.png", "options", pc, this);
-		options.setPosition(940, 690);
+		difficulty = new Button("Images/difficultyButtonUp.png", "Images/difficultyButtonDown.png", "diffselect", pc, this);
+		difficulty.setPosition(940, 690);
+		
+		//new
+		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
+		undo.setPosition(1140, 480);
 		
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "expert", pc);
 		next.setPosition(940, 780);
 
-		this.addKeyListener(player);
+		//this.addKeyListener(player);
 		this.addKeyListener(this);
+		this.addKeyListener(player);
 		this.addMouseMotionListener(this);
-		this.addMouseListener(options);
-		this.addMouseMotionListener(options);
+		this.addMouseListener(difficulty);
+		this.addMouseMotionListener(difficulty);
 		this.addMouseListener(next);
 		this.addMouseMotionListener(next);
 		this.addMouseListener(restart);
 		this.addMouseMotionListener(restart);
-		
+		this.addMouseListener(undo);
+		this.addMouseMotionListener(undo);
 		this.add(restart);
-		this.add(options);
+		this.add(difficulty);
 		this.add(next);
 		this.add(player);
+		this.add(undo);
 	}
 
 	@Override
@@ -92,9 +110,9 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		}
 
 		info.print(g);
-		
+		undo.paint(g);
 		restart.paint(g);
-		options.paint(g);
+		difficulty.paint(g);
 		next.paint(g);
 	
 	}
@@ -107,6 +125,12 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+		Map mapPre = map.clone();
+		mapStack.push(mapPre);
+		
+		Player playerpre = player.clone();
+		playerStack.push(playerpre);
 		repaint();
 	}
 
@@ -139,7 +163,26 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
+		//
+		if(playerStack.isEmpty()){
+			return;
+		}
+		if(mapStack.isEmpty()){
+			return;
+		}
+		playerStack.pop();
+		mapStack.pop();
+		if(playerStack.isEmpty()){
+			return;
+		}
+		if(mapStack.isEmpty()){
+			return;
+		}
+		map = mapStack.peek();
+		player.setPosX(playerStack.peek().getPosX());
+		player.setPosY(playerStack.peek().getPosY());
+		repaint();
+		
 		
 	}
 

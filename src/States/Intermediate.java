@@ -84,6 +84,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		//this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
+		this.addKeyListener(player);
 		this.addMouseListener(options);
 		this.addMouseMotionListener(options);
 		this.addMouseListener(next);
@@ -104,7 +105,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), null);
-		//map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 
 		map.paint(g);
 		player.paint(g);
@@ -132,9 +133,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-		player.keyPressed(e);
-		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
