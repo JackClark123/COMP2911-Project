@@ -15,16 +15,19 @@ public class Objective extends JPanel implements State, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ImageIcon background, howToPlay;
-	private Image img, data;
+	private ImageIcon background, howToPlay, player;
+	private Image img, info, data;
 	private Button returnToMM, objective, movement;
 
 	public Objective(PanelController pc) {
-		background = new ImageIcon("Images/howToPlayBackground.png");
+		background = new ImageIcon("Images/howToPlayBackgroundObjective.png");
 		img = background.getImage();
 		
 		howToPlay = new ImageIcon("Images/objective.png");
-		data = howToPlay.getImage();
+		info = howToPlay.getImage();
+		
+		player = new ImageIcon("Images/playerFront.png");
+		data = player.getImage();
 		
 		returnToMM = new Button("Images/mainMenuButtonUp.png", "Images/mainMenuButtonDown.png", "mainmenu", pc);
 		returnToMM.setPosition(900, 750);
@@ -32,7 +35,7 @@ public class Objective extends JPanel implements State, MouseMotionListener {
 		objective = new Button("Images/objectiveButtonUp.png", "Images/objectiveButtonDown.png", "objective", pc);
 		objective.setPosition(50, 200);
 		
-		movement = new Button("Images/movementButtonUp.png", "Images/movementButtonDown.png", "objective", pc);
+		movement = new Button("Images/movementButtonUp.png", "Images/movementButtonDown.png", "movement", pc);
 		movement.setPosition(50, 290);
 		
 		this.addMouseListener(returnToMM);
@@ -52,7 +55,8 @@ public class Objective extends JPanel implements State, MouseMotionListener {
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), null);
-		g.drawImage(data, 400, 200, howToPlay.getIconWidth(), howToPlay.getIconHeight(), null);
+		g.drawImage(info, 400, 200, howToPlay.getIconWidth(), howToPlay.getIconHeight(), null);
+		g.drawImage(data, 50, 450, 300, 300, null);
 		returnToMM.paint(g);
 		objective.paint(g);
 		movement.paint(g);

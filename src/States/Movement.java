@@ -20,19 +20,19 @@ public class Movement extends JPanel implements State, MouseMotionListener {
 	private Button returnToMM, objective, movement;
 
 	public Movement(PanelController pc) {
-		background = new ImageIcon("Images/howToPlayBackground.png");
+		background = new ImageIcon("Images/howToPlayBackgroundMovement.png");
 		img = background.getImage();
 		
 		howToPlay = new ImageIcon("Images/movement.png");
 		data = howToPlay.getImage();
 		
-		returnToMM = new Button("Images/returnButtonUp.png", "Images/returnButtonDown.png", "mainmenu", pc);
+		returnToMM = new Button("Images/mainMenuButtonUp.png", "Images/mainMenuButtonDown.png", "mainmenu", pc);
 		returnToMM.setPosition(900, 750);
 		
 		objective = new Button("Images/objectiveButtonUp.png", "Images/objectiveButtonDown.png", "objective", pc);
 		objective.setPosition(50, 200);
 		
-		movement = new Button("Images/movementButtonUp.png", "Images/movementButtonDown.png", "objective", pc);
+		movement = new Button("Images/movementButtonUp.png", "Images/movementButtonDown.png", "movement", pc);
 		movement.setPosition(50, 290);
 		
 		this.addMouseListener(returnToMM);
