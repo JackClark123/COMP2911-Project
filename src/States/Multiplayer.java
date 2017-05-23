@@ -113,6 +113,11 @@ public class Multiplayer extends JPanel implements GameState, KeyListener, Mouse
 		mapRight.placeBoxesAndCrosses(textBox.getNum(), seed);
 		mapRight.generateMap();
 		
+		if (keyListenerActive == false) {
+			this.addKeyListener(player1);
+			this.addKeyListener(player2);
+		}
+		
 		repaint();
 	}
 

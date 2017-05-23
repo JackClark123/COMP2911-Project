@@ -50,6 +50,15 @@ public class MultiplayerMap implements Cloneable, LineListener {
 	
 	private ArrayList<ArrayList<Integer>> mapArrayList;
 	
+	public MultiplayerMap(int offset) {
+		this.offset = offset;
+		walls = new ArrayList<Wall>();
+		boxes = new ArrayList<Box>();
+		crosses = new ArrayList<Cross>();
+		mapArrayList = new ArrayList<ArrayList<Integer>>();
+		orginalMapArrayList = new ArrayList<ArrayList<Integer>>();
+	}
+	
 	
 	public void clearALL() {
 		boxes.removeAll(boxes);
@@ -89,15 +98,6 @@ public class MultiplayerMap implements Cloneable, LineListener {
 
 	public void setGridSpacing(int gridSpacing) {
 		this.gridSpacing = gridSpacing;
-	}
-
-	public MultiplayerMap(int offset) {
-		this.offset = offset;
-		walls = new ArrayList<Wall>();
-		boxes = new ArrayList<Box>();
-		crosses = new ArrayList<Cross>();
-		mapArrayList = new ArrayList<ArrayList<Integer>>();
-		orginalMapArrayList = new ArrayList<ArrayList<Integer>>();
 	}
 	
 	
