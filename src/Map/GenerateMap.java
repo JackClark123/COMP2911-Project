@@ -10,11 +10,15 @@ import MapG.Vectors;
 public class GenerateMap {
 	private Generator gen;
 	private Map map;
+	private int box, moveHolder;
 
-	public GenerateMap(int seed) {
+	public GenerateMap(int seed, int size, int box, int move) {
+		this.box = box;
+		this.moveHolder = move;
+		size = 3  *  size;
 		map = new Map();
 		// add level here
-		gen = new Generator(new Random(seed), 12, 12, true);
+		gen = new Generator(new Random(seed), size, size, true);
 		gen.generate();
 		int[][] mapPre = new int[gen.getMap().getWidth()][gen.getMap().getWidth()];
 		for (int i = 0; i < gen.getMap().getWidth(); i++) {
@@ -42,7 +46,7 @@ public class GenerateMap {
 		}
 
 		while (!this.addItems(mapPre, boxes, goal, Player)) {
-			gen = new Generator(new Random(seed), 12, 12, true);
+			gen = new Generator(new Random(seed), size, size, true);
 			gen.generate();
 			mapPre = new int[gen.getMap().getWidth()][gen.getMap().getWidth()];
 			for (int i = 0; i < gen.getMap().getWidth(); i++) {
@@ -78,16 +82,10 @@ public class GenerateMap {
 	}
 
 	private boolean addItems(int[][] map, ArrayList<Vectors> boxes, ArrayList<Vectors> goal, Vectors player) {
-		// System.out.println("new");
-		// System.out.println("new");
-		// System.out.println("new");
-		// System.out.println("new");
 		// should be change
-		int box = 6;
 		boxes = new ArrayList<Vectors>();
 		goal = new ArrayList<Vectors>();
 		player = new Vectors(1, 1);
-		System.out.println("new1");
 		// set goals
 		for (int i = 0; i < box; i++) {
 			int max = map.length;
@@ -102,7 +100,6 @@ public class GenerateMap {
 				i--;
 			}
 		}
-		System.out.println("new2");
 		// set player
 		boolean ps = false;
 		while (!ps) {
@@ -118,46 +115,25 @@ public class GenerateMap {
 		}
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				System.out.print(map[j][i]);
+				//System.out.print(map[j][i]);
 			}
-			System.out.println(" ");
+			//System.out.println(" ");
 		}
-		// for(int i=0;i<boxes.size();i++){
-		// System.out.println("box "+ i+" "+boxes.get(i).getX()+" "+
-		// boxes.get(i).getY());
-
-		// }
-		// System.out.println("player " + player.getX()+" "+player.getY());
 
 		return moveItems(map, boxes, goal, player);
 	} // move boxes and player
 
 	private boolean moveItems(int map[][], ArrayList<Vectors> boxes, ArrayList<Vectors> goal, Vectors player) {
-		System.out.println("add");
-		System.out.println("add");
-		System.out.println("add");
-		System.out.println("add");
 		// move
-		int move = 20;
+		int move = moveHolder;
 		int test = 0;
 		while (move != 0 && test < 500) {
 			// chose a box to move
 			int max = boxes.size();
 			int boxnum = (int) (Math.random() * max);
-			System.out.println(
-					"be chosen is box " + boxes.get(boxnum).getX() + " " + boxes.get(boxnum).getY() + " " + boxnum);
-			System.out.println("player is " + player.getX() + " " + player.getY());
-			// test
-			// for(int i = 0;i<map.length;i++){
-			// for(int j = 0;j<map[0].length;j++){
-			// System.out.print(map[j][i]+" ");
-			// }
-			// System.out.println(" ");
-			// }
 			// chose a direction
 			max = 3;
 			int d = (int) (Math.random() * max);
-			System.out.println("d is " + d);
 			// move
 			boolean moved = false;
 			// test
@@ -185,7 +161,6 @@ public class GenerateMap {
 				map[boxes.get(boxnum).getX() - 1][boxes.get(boxnum).getY()] += 3;
 				boxes.get(boxnum).setX(boxes.get(boxnum).getX() - 1);
 				if (badplace(player, map)) {
-					System.out.println("bad");
 					map = pre;
 					continue;
 				}
@@ -215,7 +190,6 @@ public class GenerateMap {
 				map[boxes.get(boxnum).getX() + 1][boxes.get(boxnum).getY()] += 3;
 				boxes.get(boxnum).setX(boxes.get(boxnum).getX() + 1);
 				if (badplace(player, map)) {
-					System.out.println("bad");
 					map = pre;
 					continue;
 				}
@@ -245,7 +219,7 @@ public class GenerateMap {
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() - 1] += 3;
 				boxes.get(boxnum).setY(boxes.get(boxnum).getY() - 1);
 				if (badplace(player, map)) {
-					System.out.println("bad");
+					
 					map = pre;
 					continue;
 				}
@@ -275,7 +249,6 @@ public class GenerateMap {
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() + 1] += 3;
 				boxes.get(boxnum).setY(boxes.get(boxnum).getY() + 1);
 				if (badplace(player, map)) {
-					System.out.println("bad");
 					map = pre;
 					continue;
 				}
@@ -284,12 +257,11 @@ public class GenerateMap {
 			test++;
 			if (moved) {
 				// test
-				System.out.println("moved");
 				for (int i = 0; i < map.length; i++) {
 					for (int j = 0; j < map[0].length; j++) {
-						System.out.print(map[j][i] + " ");
+						//System.out.print(map[j][i] + " ");
 					}
-					System.out.println(" ");
+					//System.out.println(" ");
 				}
 				move--;
 			}
@@ -303,7 +275,7 @@ public class GenerateMap {
 			}
 		}
 		if (find != 1 || test == 500) {
-			System.out.println("find is " + find + " test is " + test);
+			//System.out.println("find is " + find + " test is " + test);
 			return false;
 		}
 		return true;
@@ -311,12 +283,10 @@ public class GenerateMap {
 	}
 
 	private boolean Asearch(Vectors from, Vectors to, int[][] map) {
-		System.out.println("a search");
 		PriorityQueue<Vectors> open = new PriorityQueue<Vectors>(new VecotorsComparator());
 		ArrayList<Vectors> close = new ArrayList<Vectors>();
 		open.add(from);
 		while (!open.isEmpty()) {
-			System.out.println("a search 2");
 			Vectors cur = open.poll();
 
 			// System.out.println("cur " + cur.getX() +" " + cur.getY()+" value
@@ -381,7 +351,6 @@ public class GenerateMap {
 					boolean contains = false;
 					for (int i = 0; i < close.size(); i++) {
 						if (close.get(i).getX() == add.getX() && close.get(i).getY() == add.getY()) {
-							System.out.println("contained");
 							contains = true;
 						}
 					}
@@ -425,7 +394,6 @@ public class GenerateMap {
 			// System.out.println("curr added to close");
 			close.add(cur);
 		}
-		System.out.println("no find");
 		return false;
 	}
 

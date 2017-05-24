@@ -9,12 +9,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import Map.GenerateMap;
 import Map.Map;
-import Map.ReadFile;
 import PlayGame.GameInfo;
 import Window.PanelController;
 import items.Button;
@@ -23,14 +24,15 @@ import items.Player;
 public class Expert extends JPanel implements GameState, KeyListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 
-	private ReadFile file;
 	private Map map;
 	private GameInfo info;
 	private Player player;
 	private ImageIcon background;
 	private Image img;
 	private Button restart, options, next;
-
+	private GenerateMap generator;
+	
+	
 	public Expert(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
 		img = background.getImage();
@@ -44,8 +46,12 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 
 		this.setPreferredSize(new Dimension(1280, 900));
 
-		file = new ReadFile("input.txt");
-		map = file.getMap();
+		int max=20;
+        int min=10;
+        Random random = new Random();
+        int s = random.nextInt(max)%(max-min+1) + min;
+		generator = new GenerateMap(s, 4, 10, 50);
+		map = generator.getMap();
 		map.generateMap();
 
 		info = new GameInfo(900, 0, "expert");

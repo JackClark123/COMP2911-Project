@@ -77,6 +77,18 @@ public class PanelController extends JPanel{
 		if (panelName.equals("exit")) {
 			frame.dispose();
 		}
+		
+		if (panelName.equals("novice")) {
+			novice = new Novice(this);
+			this.add(novice, "novice");
+		} else if (panelName.equals("intermediate")) {
+			intermediate = new Intermediate(this);
+			this.add(intermediate, "intermediate");
+		} else if (panelName.equals("expert")) {
+			expert = new Expert(this);
+			this.add(expert, "expert");
+		}
+		
 		cardLayout.show(this, panelName);
 	}
 	

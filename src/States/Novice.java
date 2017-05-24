@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 
 import Map.GenerateMap;
 import Map.Map;
-import Map.ReadFile;
 import PlayGame.GameInfo;
 import Window.PanelController;
 import items.Button;
@@ -27,7 +26,6 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 
 	private static final long serialVersionUID = 1L;
 
-	private ReadFile file;
 	private Map map;
 	private GameInfo info;
 	private Player player;
@@ -59,7 +57,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
         int min=10;
         Random random = new Random();
         int s = random.nextInt(max)%(max-min+1) + min;
-		generator = new GenerateMap(s);
+		generator = new GenerateMap(s, 2, 3, 15);
 		map=generator.getMap();
 		map.generateMap();
 		//

@@ -9,13 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import Map.GenerateMap;
 import Map.Map;
-import Map.ReadFile;
 import PlayGame.GameInfo;
 import Window.PanelController;
 import items.Button;
@@ -25,7 +26,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 	private static final long serialVersionUID = 1L;
 
-	private ReadFile file;
 	private Map map;
 	
 	private GameInfo info;
@@ -33,6 +33,8 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
+	
+	private GenerateMap generator;
 	
 	private ImageIcon background;
 	private Image img;
@@ -53,8 +55,12 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 		this.setPreferredSize(new Dimension(1280, 900));
 
-		file = new ReadFile("input.txt");
-		map = file.getMap();
+		int max=20;
+        int min=10;
+        Random random = new Random();
+        int s = random.nextInt(max)%(max-min+1) + min;
+		generator = new GenerateMap(s, 3, 10, 40);
+		map = generator.getMap();
 		map.generateMap();
 		//
 		mapStack = new Stack<Map>();
