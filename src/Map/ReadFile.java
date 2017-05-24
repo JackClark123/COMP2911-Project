@@ -10,10 +10,12 @@ public class ReadFile {
 	private Scanner sc;
 	
 	private Map map;
+	private MultiplayerMap multiplayerMap;
 
 	public ReadFile(String filename) {
 		
 		map = new Map();
+		multiplayerMap = new MultiplayerMap(0);
 		
 		sc = null;
 		try {
@@ -38,6 +40,7 @@ public class ReadFile {
 		for (int i = 0; i < line.length; i++) {
 			row.add(Character.getNumericValue(line[i]));
 		}
+		multiplayerMap.addRow(row);
 		map.addRow(row);
 	}
 
@@ -47,6 +50,10 @@ public class ReadFile {
 
 	public void setMap(Map map) {
 		this.map = map;
+	}
+	
+	public MultiplayerMap getMultiplayerMap() {
+		return multiplayerMap;
 	}
 	
 }

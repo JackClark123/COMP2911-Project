@@ -16,7 +16,7 @@ public class MainMenu extends JPanel implements State, MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Button startButton, howToPlayButton, exitButton;
+	private Button startButton, howToPlayButton, exitButton, multiplayer;
 	private ImageIcon background;
 	private Image img;
 
@@ -29,22 +29,28 @@ public class MainMenu extends JPanel implements State, MouseMotionListener{
 		howToPlayButton.setPosition(100, 440);
 		
 		exitButton = new Button("Images/exitButtonUp.png", "Images/exitButtonDown.png", "exit", pc);
-		exitButton.setPosition(100, 530);
+		exitButton.setPosition(100, 630);
+		
+		multiplayer = new Button("Images/mulitplayerButtonUp.png", "Images/mulitplayerButtonDown.png", "multiplayer", pc);
+		multiplayer.setPosition(100, 530);
 		
 		background = new ImageIcon("Images/MainMenu.png");
 		img = background.getImage();
 		
 		this.addMouseListener(startButton);
 		this.addMouseListener(howToPlayButton);
+		this.addMouseListener(multiplayer);
 		this.addMouseListener(exitButton);
 		
 		this.addMouseMotionListener(startButton);
 		this.addMouseMotionListener(howToPlayButton);
+		this.addMouseMotionListener(multiplayer);
 		this.addMouseMotionListener(exitButton);
 		this.addMouseMotionListener(this);
 		
 		this.add(startButton);
 		this.add(howToPlayButton);
+		this.add(multiplayer);
 		this.add(exitButton);
 	}
 	
@@ -55,6 +61,7 @@ public class MainMenu extends JPanel implements State, MouseMotionListener{
 		
 		startButton.paint(g);
 		howToPlayButton.paint(g);
+		multiplayer.paint(g);
 		exitButton.paint(g);
 	}
 

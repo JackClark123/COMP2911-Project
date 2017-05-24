@@ -1,12 +1,13 @@
 package Map;
 
-import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -23,36 +24,17 @@ import items.Cross;
 import items.Player;
 import items.Wall;
 
-public class Map implements Cloneable, LineListener {
-	
+public class MultiplayerMap implements Cloneable, LineListener {
+
 	private final int EMPTY = 0;
 	private final int WALL = 1;
 	private final int PLAYER = 2;
 	private final int BOX = 3;
 	private final int CROSS = 4;
+	private final int SCALE = 900;
 	
-	private List<Wall> walls;
-	private List<Box> boxes;
-	
-	//new undo button
-	public List<Box> getBoxes() {
-		return boxes;
-	}
-	public void setBoxes(List<Box> boxes) {
-		this.boxes = boxes;
-	}
-	
-	private List<Cross> crosses;
-	
-	private ArrayList<ArrayList<Integer>> mapArrayList;
-	
-	//new undo button
-	public ArrayList<ArrayList<Integer>> getMapArrayList() {
-		return mapArrayList;
-	}
-	public void setMapArrayList(ArrayList<ArrayList<Integer>> mapArrayList) {
-		this.mapArrayList = mapArrayList;
-	}
+	private int offset;
+	private boolean completed = false;
 	
 	private ArrayList<ArrayList<Integer>> orginalMapArrayList;
 	
@@ -62,16 +44,14 @@ public class Map implements Cloneable, LineListener {
 	
 	private int gridSpacing;
 	
-	public int getGridSpacing() {
-		return gridSpacing;
-	}
-
-	public void setGridSpacing(int gridSpacing) {
-		this.gridSpacing = gridSpacing;
-	}
-
-	public Map() {
-		
+	private List<Wall> walls;
+	private List<Box> boxes;
+	private List<Cross> crosses;
+	
+	private ArrayList<ArrayList<Integer>> mapArrayList;
+	
+	public MultiplayerMap(int offset) {
+		this.offset = offset;
 		walls = new ArrayList<Wall>();
 		boxes = new ArrayList<Box>();
 		crosses = new ArrayList<Cross>();
@@ -79,23 +59,47 @@ public class Map implements Cloneable, LineListener {
 		orginalMapArrayList = new ArrayList<ArrayList<Integer>>();
 	}
 	
-	public Map clone(){
-		//may clone other staff
-		Map o = null;
-		try{ 
-			o = (Map)super.clone();
-			List<Box> boxesNew = new ArrayList<Box>();
-			for(int i = 0 ;i<boxes.size();i++){
-				Box box = new Box(boxes.get(i).getX(),boxes.get(i).getY(), gridSpacing, gridSpacing);
-				boxesNew.add(box);
-			}
-			o.setBoxes(boxesNew);
-			o.setMapArrayList(copy(this.mapArrayList));
-		}catch(CloneNotSupportedException e){ 
-			e.printStackTrace(); 
-		} 
-			return o;  
+	
+	public void clearALL() {
+		boxes.removeAll(boxes);
+		crosses.removeAll(crosses);
+		walls.removeAll(walls);
+		setEmpty(mapArrayList);
+		setEmpty(orginalMapArrayList);
 	}
+	
+	public void setEmpty(ArrayList<ArrayList<Integer>> list) {
+		for (ArrayList<Integer> temp1 : list) {
+			for (Integer temp2 : temp1) {
+				temp2.equals(EMPTY);
+			}
+		}
+	}
+	
+	//new undo button
+	public List<Box> getBoxes() {
+		return boxes;
+	}
+	public void setBoxes(List<Box> boxes) {
+		this.boxes = boxes;
+	}
+	
+	//new undo button
+	public ArrayList<ArrayList<Integer>> getMapArrayList() {
+		return mapArrayList;
+	}
+	public void setMapArrayList(ArrayList<ArrayList<Integer>> mapArrayList) {
+		this.mapArrayList = mapArrayList;
+	}
+	
+	public int getGridSpacing() {
+		return gridSpacing;
+	}
+
+	public void setGridSpacing(int gridSpacing) {
+		this.gridSpacing = gridSpacing;
+	}
+	
 	
 	public void addRow(ArrayList<Integer> row) {
 		mapArrayList.add(row);
@@ -103,40 +107,11 @@ public class Map implements Cloneable, LineListener {
 	
 	
 	public boolean mapComplete() {
-		if (numBoxesInPlace == numCrosses) {
+		if (numBoxesInPlace == numCrosses && numCrosses != 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	void play(String audioFilePath) {
-        File audioFile = new File(audioFilePath);
- 
-        try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
- 
-            AudioFormat format = audioStream.getFormat();
- 
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
- 
-            Clip audioClip = (Clip) AudioSystem.getLine(info);
- 
-            audioClip.addLineListener(this);
- 
-            audioClip.open(audioStream);
-             
-            audioClip.start();
-             
-             
-        } catch (UnsupportedAudioFileException ex) {
-            ex.printStackTrace();
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-         
-    }
 	
 	private void itemCollisionHandling(int deltaX, int deltaY, Player player) {
 		boolean setBack = false;
@@ -178,11 +153,47 @@ public class Map implements Cloneable, LineListener {
 		}
 	}
 	
+	void play(String audioFilePath) {
+        File audioFile = new File(audioFilePath);
+ 
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+ 
+            AudioFormat format = audioStream.getFormat();
+ 
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+ 
+            Clip audioClip = (Clip) AudioSystem.getLine(info);
+ 
+            audioClip.addLineListener(this);
+ 
+            audioClip.open(audioStream);
+             
+            audioClip.start();
+             
+             
+        } catch (UnsupportedAudioFileException ex) {
+            ex.printStackTrace();
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+         
+    }
+	
 	public void playerCollisonHandling(int posX, int posY, int prevX, int prevY, Player player) {
-		if (posX >= 0 && posX < mapArrayList.size() && posY >= 0 && posY < mapArrayList.get(posY).size()) {
+		if (offset != 0) {
+			posX -= 10;
+			prevX -= 10;
+		}
+		if (posY >= 0 && posY < mapArrayList.size() && posX >= 0 && posX < mapArrayList.get(posY).size()) {
 			if (mapArrayList.get(posY).get(posX) != EMPTY && mapArrayList.get(posY).get(posX) != PLAYER && mapArrayList.get(posY).get(posX) != CROSS) {
 				
 				if (mapArrayList.get(posY).get(posX) == WALL) {
+					if (offset != 0) {
+						prevX += 10;
+					}
 					player.setPosX(prevX);
 					player.setPosY(prevY);
 				} else if (mapArrayList.get(posY).get(posX) == BOX) {
@@ -193,8 +204,8 @@ public class Map implements Cloneable, LineListener {
 					
 					mapArrayList.set(posY, mapArrayList.get(posY)).set(posX, EMPTY);
 					
-					if (newX >= 0 && newX < mapArrayList.size() && newY >= 0 && newY < mapArrayList.get(0).size()) {
-						mapArrayList.set(newY, mapArrayList.get(newY)).set(newX, BOX);
+					if (newY >= 0 && newY < mapArrayList.size() && newX >= 0 && newX < mapArrayList.get(newY).size()) {
+						mapArrayList.get(newY).set(newX, BOX);
 					}
 					
 					for (Box temp : boxes) {
@@ -212,6 +223,51 @@ public class Map implements Cloneable, LineListener {
 			}
 		}
 		
+	}
+	
+	public void placeBoxesAndCrosses(int num, int seed) {
+		if (num < 1000) {
+			Random rand = new Random(seed);
+
+			int  randboxX, randboxY, randcrossX, randcrossY;
+			boolean boxPlaced, crossPlaced;
+			for (int i = 0; i < num; i++) {
+				boxPlaced = false;
+				crossPlaced = false;
+				int loopNumber = 0;
+				while (boxPlaced == false || crossPlaced == false) {
+					loopNumber++;
+					randboxX = rand.nextInt(5) + 2;
+					randboxY = rand.nextInt(10) + 2;
+					randcrossX = rand.nextInt(7) + 1;
+					randcrossY = rand.nextInt(12) + 1;
+					
+					if (loopNumber > 100) {
+						boxPlaced = true;
+						crossPlaced = true;
+					}
+					
+					if (offset != 0) {
+						randboxX++;
+						randcrossX++;
+					}
+					
+					if (mapArrayList.get(randboxY).get(randboxX) == EMPTY && boxPlaced == false) {
+						if ((randboxX != 4 && randboxY != 7) || (randboxX != 5 && randboxY != 7)) {
+							mapArrayList.get(randboxY).set(randboxX, BOX);
+							boxPlaced = true;
+						}
+					}
+					
+					if (mapArrayList.get(randcrossY).get(randcrossX) == EMPTY && crossPlaced == false) {
+						if (randcrossX != 4 || randcrossY != 7 || randcrossX != 5) {
+							mapArrayList.get(randcrossY).set(randcrossX, CROSS);
+							crossPlaced = true;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public void resetMap(Player player) {
@@ -267,7 +323,7 @@ public class Map implements Cloneable, LineListener {
 		orginalMapArrayList = copy(mapArrayList);
 		
 		
-		gridSpacing = 900 / mapArrayList.size();
+		gridSpacing = SCALE / mapArrayList.size();
 		
 		for (int i = 0; i < mapArrayList.size(); i++) {
 			for (int j = 0; j < mapArrayList.get(i).size(); j++) {
@@ -291,15 +347,6 @@ public class Map implements Cloneable, LineListener {
 		}
 	}
 	
-	public void paintGrid(Graphics g) {
-		for (int i = 0; i < mapArrayList.size(); i++) {
-			for (int j = 0; j < mapArrayList.get(i).size(); j++) {
-				g.setColor(Color.DARK_GRAY);
-				g.drawRect(i * gridSpacing, j * gridSpacing, gridSpacing, gridSpacing);
-			}
-		}
-	}
-	
 	public void paintWalls(Graphics g) {
 		for (Wall temp : walls) {
 			temp.print(g);
@@ -318,13 +365,38 @@ public class Map implements Cloneable, LineListener {
 		}
 	}
 	
+	public void paintWinner(Graphics g) {
+		if (mapComplete()) {
+			if (completed == false) {
+				play("Sounds/winner.wav");
+				completed = true;
+			}
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 50)); 
+			if (offset == 0) {
+				g.drawString("Winner", 200, 200);
+			} else {
+				g.drawString("Winner", 300, 200);
+			}
+		}
+	}
+	
 	public void paint(Graphics g) {
-		paintGrid(g);
+		g.translate(offset, 0);
 		paintWalls(g);
 		paintCrosses(g);
 		paintBoxes(g);
+		paintWinner(g);
+		g.translate(-offset, 0);
 	}
+	
+	
 
+	public int getOffset() {
+		return offset;
+	}
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
 	public int getPlayerX() {
 		return playerX;
 	}
@@ -348,6 +420,7 @@ public class Map implements Cloneable, LineListener {
 	public void setNumBoxesInPlace(int numBoxesInPlace) {
 		this.numBoxesInPlace = numBoxesInPlace;
 	}
+
 	@Override
 	public void update(LineEvent event) {
 		// TODO Auto-generated method stub
@@ -356,3 +429,4 @@ public class Map implements Cloneable, LineListener {
 	
 	
 }
+

@@ -9,12 +9,14 @@ import javax.swing.JPanel;
 import States.DifficultySelect;
 import States.Expert;
 import States.Intermediate;
-import States.Novice;
 import States.MainMenu;
-import States.PlayGame;
-import States.Options;
-import States.Objective;
 import States.Movement;
+import States.Multiplayer;
+import States.MultiplayerPaused;
+import States.Novice;
+import States.Objective;
+import States.Options;
+import States.PlayGame;
 
 public class PanelController extends JPanel{
 	
@@ -24,7 +26,7 @@ public class PanelController extends JPanel{
 	
 	private MainMenu mainmenu;
 	private PlayGame game;
-	//private HowToPlay howToPlay;
+	private Multiplayer multiplayer;
 	private DifficultySelect diffSelect;
 	private JFrame frame;
 	private Novice novice;
@@ -33,6 +35,7 @@ public class PanelController extends JPanel{
 	private Options options;
 	private Objective objective;
 	private Movement movement;
+	private MultiplayerPaused multiplayerPaused;
 	
 	private String currentDifficulty;
 	
@@ -47,23 +50,25 @@ public class PanelController extends JPanel{
 		
 		mainmenu = new MainMenu(this);
 		game = new PlayGame(this);
-		//howToPlay = new HowToPlay(this);
+		multiplayer = new Multiplayer(this);
 		diffSelect = new DifficultySelect(this);
 		novice = new Novice(this);
 		intermediate = new Intermediate(this);
 		expert = new Expert(this);
 		options = new Options(this);
+		multiplayerPaused = new MultiplayerPaused(this);
 		objective = new Objective(this);
 		movement = new Movement(this);
 		
 		this.add(mainmenu, "mainmenu");
 		this.add(game, "game");
-		//this.add(howToPlay, "howToPlay");
+		this.add(multiplayer, "multiplayer");
 		this.add(diffSelect, "diffselect");
 		this.add(novice, "novice");
 		this.add(intermediate, "intermediate");
 		this.add(expert, "expert");
 		this.add(options, "options");
+		this.add(multiplayerPaused, "multiplayerPaused");
 		this.add(objective, "objective");
 		this.add(movement, "movement");
 	}
@@ -78,10 +83,12 @@ public class PanelController extends JPanel{
 	public void setCurrentDifficulty(String panelName){
 		if(panelName.equals("novice")){
 			currentDifficulty = "novice";
-		}else if(panelName.equals("intermediate")){
+		} else if(panelName.equals("intermediate")){
 			currentDifficulty = "intermediate";
-		}else if(panelName.equals("expert")){
+		} else if(panelName.equals("expert")){
 			currentDifficulty = "expert";
+		} else if (panelName.equals("multiplayer")) {
+			currentDifficulty = "multiplayer";
 		}
 	}
 	
