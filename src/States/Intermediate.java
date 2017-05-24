@@ -30,7 +30,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	
 	private GameInfo info;
 	private Player player;
-	private boolean listenerActive = true;
 	
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
@@ -85,7 +84,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		//this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
-		this.addKeyListener(player);
 		this.addMouseListener(options);
 		this.addMouseMotionListener(options);
 		this.addMouseListener(next);
@@ -106,7 +104,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), null);
-		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		//map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 
 		map.paint(g);
 		player.paint(g);
@@ -116,7 +114,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		
 		if (map.mapComplete() == true) {
 			this.removeKeyListener(player);
-			listenerActive = false;
 		}
 
 		info.print(g);
@@ -135,6 +132,9 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+		player.keyPressed(e);
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
@@ -166,9 +166,8 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	public void restartMap() {
 		map.resetMap(player);
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (listenerActive == false) {
+		if (this.getKeyListeners() == null) {
 			this.addKeyListener(player);
-			listenerActive = true;
 		}
 		map.setNumBoxesInPlace(0);
 	}
