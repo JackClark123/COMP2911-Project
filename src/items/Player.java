@@ -12,21 +12,46 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final String playerImage = "Images/player.png";
+	private final int UP = 1;
+	private final int DOWN = 2;
+	private final int RIGHT = 3;
+	private final int LEFT = 4;
+	
+	private long lastPressProcessed = 0;
+	private int playerState = 1;
+	
 	private int posX, posY, size, spacing;
 	private int prevX, prevY;
-	private ImageIcon img;
+	private ImageIcon up, down, left, right;
 	
 	private int moves = 0;
+	private int playerNum;
 	private boolean moving = false;
 	
 	public Player(int posX, int posY, int size, int spacing) {
+		playerNum = 1;
 		this.posX = posX;
 		this.posY = posY;
 		this.size = size;
 		this.spacing = spacing;
 		this.addKeyListener(this);
-		img = new ImageIcon(playerImage);
+		up = new ImageIcon("Images/playerFront.png");
+		down = new ImageIcon("Images/playerBack.png");
+		left = new ImageIcon("Images/playerLeft.png");
+		right = new ImageIcon("Images/playerRight.png");
+	}
+	
+	public Player(int posX, int posY, int size, int spacing, int playerNum) {
+		this.playerNum = playerNum;
+		this.posX = posX;
+		this.posY = posY;
+		this.size = size;
+		this.spacing = spacing;
+		this.addKeyListener(this);
+		up = new ImageIcon("Images/playerFront.png");
+		down = new ImageIcon("Images/playerBack.png");
+		left = new ImageIcon("Images/playerLeft.png");
+		right = new ImageIcon("Images/playerRight.png");
 	}
 	
 	public Player clone(){
@@ -39,8 +64,18 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 		return o;
 	}
 	
-	public void paintComponent(Graphics g) {		
-		Image player = img.getImage();
+	public void paintComponent(Graphics g) {	
+		Image player = null;
+		if (playerState == UP) {
+			player = down.getImage();
+		} else if (playerState == DOWN) {
+			player = up.getImage();
+		} else if (playerState == LEFT) {
+			player = left.getImage();
+		} else if (playerState == RIGHT) {
+			player = right.getImage();
+		}
+		
 		g.drawImage(player, posX * spacing, posY * spacing, size, size, null);
 	}
 	
@@ -120,25 +155,55 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		prevX = posX;
-		prevY = posY;
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			posY--;
-			moving = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			posY++;
-			moving = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			posX--;
-			moving = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			posX++;
-			moving = true;
-		}
+		
+		if(System.currentTimeMillis() - lastPressProcessed > 100) {
+			prevX = posX;
+			prevY = posY;
+			
+			if (playerNum == 1) {
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
+					posY--;
+					moving = true;
+					playerState = UP;
+				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					posY++;
+					moving = true;
+					playerState = DOWN;
+				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					posX--;
+					moving = true;
+					playerState = LEFT;
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					posX++;
+					moving = true;
+					playerState = RIGHT;
+				}
+			} else if (playerNum == 2) {
+				if (e.getKeyCode() == KeyEvent.VK_W) {
+					posY--;
+					moving = true;
+					playerState = UP;
+				} else if (e.getKeyCode() == KeyEvent.VK_S) {
+					posY++;
+					moving = true;
+					playerState = DOWN;
+				} else if (e.getKeyCode() == KeyEvent.VK_A) {
+					posX--;
+					moving = true;
+					playerState = LEFT;
+				} else if (e.getKeyCode() == KeyEvent.VK_D) {
+					posX++;
+					moving = true;
+					playerState = RIGHT;
+				}
+			}
+            lastPressProcessed = System.currentTimeMillis();
+            
+        }   
+		repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
 	}
 }

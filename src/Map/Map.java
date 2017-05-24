@@ -197,11 +197,6 @@ public class Map implements Cloneable{
 					if (crossIterator.hasNext()) {
 						crossIterator.next().setPosition(j, i);
 					}
-				} else if (mapArrayList.get(i).get(j) == CROSS+BOX){
-					if (crossIterator.hasNext()) {
-						crossIterator.next().setPosition(j, i);
-						boxIterator.next().setPosition(j, i);
-					}
 				}
 				
 			}
