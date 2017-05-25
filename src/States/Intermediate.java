@@ -59,7 +59,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
         int min=10;
         Random random = new Random();
         int s = random.nextInt(max)%(max-min+1) + min;
-		generator = new GenerateMap(s, 3, 10, 40);
+		generator = new GenerateMap(s, 3, 7, 40);
 		map = generator.getMap();
 		map.generateMap();
 		//

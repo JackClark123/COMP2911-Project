@@ -50,7 +50,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
         int min=10;
         Random random = new Random();
         int s = random.nextInt(max)%(max-min+1) + min;
-		generator = new GenerateMap(s, 4, 10, 50);
+		generator = new GenerateMap(s, 4, 9, 70);
 		map = generator.getMap();
 		map.generateMap();
 

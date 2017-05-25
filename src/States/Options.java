@@ -32,7 +32,7 @@ public class Options extends JPanel implements State, MouseMotionListener {
 		returnToMM = new Button("Images/mainMenuButtonUp.png", "Images/mainMenuButtonDown.png", "mainmenu", pc);
 		returnToMM.setPosition(475, 390);
 		
-		returnToGame = new Button("Images/resumeButtonUp.png", "Images/resumeButtonDown.png", pc.getCurrentDifficulty(), pc);
+		returnToGame = new Button("Images/resumeButtonUp.png", "Images/resumeButtonDown.png", pc.getCurrentDifficulty(), pc, true);
 		returnToGame.setPosition(475, 480);
 		
 		exitButton = new Button("Images/exitButtonUp.png", "Images/exitButtonDown.png", "exit", pc);

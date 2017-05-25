@@ -113,12 +113,6 @@ public class GenerateMap {
 				ps = true;
 			}
 		}
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				//System.out.print(map[j][i]);
-			}
-			//System.out.println(" ");
-		}
 
 		return moveItems(map, boxes, goal, player);
 	} // move boxes and player
@@ -127,7 +121,7 @@ public class GenerateMap {
 		// move
 		int move = moveHolder;
 		int test = 0;
-		while (move != 0 && test < 500) {
+		while (move != 0 && test < 700) {
 			// chose a box to move
 			int max = boxes.size();
 			int boxnum = (int) (Math.random() * max);
@@ -145,25 +139,13 @@ public class GenerateMap {
 					&& map[boxes.get(boxnum).getX() - 1][boxes.get(boxnum).getY()] != 3
 					&& map[boxes.get(boxnum).getX() - 2][boxes.get(boxnum).getY()] != 3
 					&& Asearch(player, new Vectors(boxes.get(boxnum).getX() - 1, boxes.get(boxnum).getY()), map)) {
-				int[][] pre = new int[map.length][map.length];
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						pre[j][i] = map[j][i];
-					}
-				}
 				map[player.getX()][player.getY()] -= 2;
 				player.setX(boxes.get(boxnum).getX() - 2);
 				player.setY(boxes.get(boxnum).getY());
 				map[player.getX()][player.getY()] += 2;
-				// if(map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()]!=4){
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()] -= 3;
-				// }
 				map[boxes.get(boxnum).getX() - 1][boxes.get(boxnum).getY()] += 3;
 				boxes.get(boxnum).setX(boxes.get(boxnum).getX() - 1);
-				if (badplace(player, map)) {
-					map = pre;
-					continue;
-				}
 				moved = true;
 			}
 			if (d == 1 && boxes.get(boxnum).getX() < map.length - 2
@@ -174,25 +156,13 @@ public class GenerateMap {
 					&& map[boxes.get(boxnum).getX() + 1][boxes.get(boxnum).getY()] != 3
 					&& map[boxes.get(boxnum).getX() + 2][boxes.get(boxnum).getY()] != 3
 					&& Asearch(player, new Vectors(boxes.get(boxnum).getX() + 1, boxes.get(boxnum).getY()), map)) {
-				int[][] pre = new int[map.length][map.length];
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						pre[j][i] = map[j][i];
-					}
-				}
 				map[player.getX()][player.getY()] -= 2;
 				player.setX(boxes.get(boxnum).getX() + 2);
 				player.setY(boxes.get(boxnum).getY());
 				map[player.getX()][player.getY()] += 2;
-				// if(map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()]!=4){
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()] -= 3;
-				// }
 				map[boxes.get(boxnum).getX() + 1][boxes.get(boxnum).getY()] += 3;
 				boxes.get(boxnum).setX(boxes.get(boxnum).getX() + 1);
-				if (badplace(player, map)) {
-					map = pre;
-					continue;
-				}
 				moved = true;
 			}
 			if (d == 2 && boxes.get(boxnum).getY() > 1
@@ -203,26 +173,13 @@ public class GenerateMap {
 					&& map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() - 1] != 3
 					&& map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() - 2] != 3
 					&& Asearch(player, new Vectors(boxes.get(boxnum).getX(), boxes.get(boxnum).getY() - 1), map)) {
-				int[][] pre = new int[map.length][map.length];
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						pre[j][i] = map[j][i];
-					}
-				}
 				map[player.getX()][player.getY()] -= 2;
 				player.setX(boxes.get(boxnum).getX());
 				player.setY(boxes.get(boxnum).getY() - 2);
 				map[player.getX()][player.getY()] += 2;
-				// if(map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()]!=4){
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()] -= 3;
-				// }
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() - 1] += 3;
 				boxes.get(boxnum).setY(boxes.get(boxnum).getY() - 1);
-				if (badplace(player, map)) {
-					
-					map = pre;
-					continue;
-				}
 				moved = true;
 			}
 			if (d == 3 && boxes.get(boxnum).getY() > map[0].length - 2
@@ -233,49 +190,34 @@ public class GenerateMap {
 					&& map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() + 1] != 3
 					&& map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() + 2] != 3
 					&& Asearch(player, new Vectors(boxes.get(boxnum).getX(), boxes.get(boxnum).getY() + 1), map)) {
-				int[][] pre = new int[map.length][map.length];
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						pre[j][i] = map[j][i];
-					}
-				}
 				map[player.getX()][player.getY()] -= 2;
 				player.setX(boxes.get(boxnum).getX());
 				player.setY(boxes.get(boxnum).getY() + 2);
 				map[player.getX()][player.getY()] += 2;
-				// if(map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()]!=4){
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY()] -= 3;
-				// }
 				map[boxes.get(boxnum).getX()][boxes.get(boxnum).getY() + 1] += 3;
 				boxes.get(boxnum).setY(boxes.get(boxnum).getY() + 1);
-				if (badplace(player, map)) {
-					map = pre;
-					continue;
-				}
 				moved = true;
 			}
 			test++;
 			if (moved) {
-				// test
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						//System.out.print(map[j][i] + " ");
-					}
-					//System.out.println(" ");
-				}
 				move--;
 			}
 		}
 		int find = 0;
+		int num =0;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == 2) {
 					find++;
 				}
+				if (map[i][j] == 3) {
+					num++;
+				}
 			}
 		}
-		if (find != 1 || test == 500) {
-			//System.out.println("find is " + find + " test is " + test);
+		if (find != 1 || test == 700||num<boxes.size()-1) {
+			System.out.println("nooo");
 			return false;
 		}
 		return true;
@@ -288,10 +230,6 @@ public class GenerateMap {
 		open.add(from);
 		while (!open.isEmpty()) {
 			Vectors cur = open.poll();
-
-			// System.out.println("cur " + cur.getX() +" " + cur.getY()+" value
-			// "+cur.getGs()+" "+cur.getFx());
-			// close.add(cur);
 			if (cur.getX() != 0) {
 				Vectors add = new Vectors(cur.getX() - 1, cur.getY());
 				if (add.getX() == to.getX() && add.getY() == to.getY()) {
@@ -301,18 +239,13 @@ public class GenerateMap {
 					boolean contains = false;
 					for (int i = 0; i < close.size(); i++) {
 						if (close.get(i).getX() == add.getX() && close.get(i).getY() == add.getY()) {
-							// System.out.println("contained");
 							contains = true;
 						}
 					}
 					if (!contains) {
-						// System.out.println("add is " + add.getX()+" "
-						// +add.getY());
-						// System.out.println("be added is ");
 						add.addGs(1 + cur.getGs());
 						add.addFx(add.getGs() + hx(add, to));
 						;
-						// System.out.println(add.getGs()+" "+add.getFx());
 						open.add(add);
 					}
 				}
@@ -326,18 +259,12 @@ public class GenerateMap {
 					boolean contains = false;
 					for (int i = 0; i < close.size(); i++) {
 						if (close.get(i).getX() == add.getX() && close.get(i).getY() == add.getY()) {
-							// System.out.println("contained");
 							contains = true;
 						}
 					}
 					if (!contains) {
-						// System.out.println("add is " + add.getX()+" "
-						// +add.getY());
-						// System.out.println("be added is ");
 						add.addGs(1 + cur.getGs());
 						add.addFx(add.getGs() + hx(add, to));
-						;
-						// System.out.println(add.getGs()+" "+add.getFx());
 						open.add(add);
 					}
 				}
@@ -355,13 +282,8 @@ public class GenerateMap {
 						}
 					}
 					if (!contains) {
-						// System.out.println("add is " + add.getX()+" "
-						// +add.getY());
-						// System.out.println("be added is ");
 						add.addGs(cur.getGs() + 1);
 						add.addFx(add.getGs() + hx(add, to));
-						;
-						// System.out.println(add.getGs()+" "+add.getFx());
 						open.add(add);
 					}
 				}
@@ -375,66 +297,23 @@ public class GenerateMap {
 					boolean contains = false;
 					for (int i = 0; i < close.size(); i++) {
 						if (close.get(i).getX() == add.getX() && close.get(i).getY() == add.getY()) {
-							// System.out.println("contained");
 							contains = true;
 						}
 					}
 					if (!contains) {
-						// System.out.println("add is " + add.getX()+" "
-						// +add.getY());
-						// System.out.println("be added is ");
 						add.addGs(cur.getGs() + 1);
 						add.addFx(add.getGs() + hx(add, to));
 						;
-						// System.out.println(add.getGs()+" "+add.getFx());
 						open.add(add);
 					}
 				}
 			}
-			// System.out.println("curr added to close");
 			close.add(cur);
 		}
 		return false;
 	}
-
 	private double hx(Vectors from, Vectors to) {
 		return Math.sqrt((from.getX() - to.getX()) * (from.getX() - to.getX())
 				+ (from.getY() - to.getY()) * (from.getY() - to.getY()));
 	}
-
-	private boolean badplace(Vectors player, int[][] map) {
-		if (player.getX() > 0 && player.getX() < map.length - 1 && player.getY() > 0
-				&& player.getY() < map.length - 1) {
-			if (map[player.getX() - 1][player.getY()] != 0 && map[player.getX() + 1][player.getY()] != 0
-					&& map[player.getX()][player.getY() - 1] != 0 && map[player.getX()][player.getY() + 1] != 0) {
-				return true;
-			}
-		} else if (player.getX() == 0 && player.getX() < map.length - 1 && player.getY() > 0
-				&& player.getY() < map.length - 1) {
-			if (map[player.getX() + 1][player.getY()] != 0 && map[player.getX()][player.getY() - 1] != 0
-					&& map[player.getX()][player.getY() + 1] != 0) {
-				return true;
-			}
-		} else if (player.getX() == map.length - 1 && player.getX() > 0 && player.getY() > 0
-				&& player.getY() < map.length - 1) {
-			if (map[player.getX() - 1][player.getY()] != 0 && map[player.getX()][player.getY() - 1] != 0
-					&& map[player.getX()][player.getY() + 1] != 0) {
-				return true;
-			}
-		} else if (player.getY() == map.length - 1 && player.getX() > 0 && player.getX() < map.length - 1
-				&& player.getY() > 0) {
-			if (map[player.getX() - 1][player.getY()] != 0 && map[player.getX() + 1][player.getY()] != 0
-					&& map[player.getX()][player.getY() - 1] != 0) {
-				return true;
-			}
-		} else if (player.getY() == 0 && player.getY() < map.length - 1 && player.getX() > 0
-				&& player.getX() < map.length - 1) {
-			if (map[player.getX() - 1][player.getY()] != 0 && map[player.getX() + 1][player.getY()] != 0
-					&& map[player.getX()][player.getY() + 1] != 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 }

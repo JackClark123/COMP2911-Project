@@ -37,6 +37,7 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	private GameState gs;
 	private Multiplayer mp;
 	private boolean hovering = false;
+	private boolean resume = false;
 
 	public Button(String image1, String image2, String nextState, PanelController pc) {
 		this.pc = pc;
@@ -61,6 +62,16 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		this.mp = mp;
 		this.pc = pc;
 		this.gs = gs;
+		img1 = new ImageIcon(image1);
+		img2 = new ImageIcon(image2);
+		this.nextState = nextState;
+		this.addMouseListener(this);
+		this.addMouseListener(this);
+	}
+	
+	public Button(String image1, String image2, String nextState, PanelController pc, boolean resume) {
+		this.resume = resume;
+		this.pc = pc;
 		img1 = new ImageIcon(image1);
 		img2 = new ImageIcon(image2);
 		this.nextState = nextState;
@@ -130,7 +141,7 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (isCollision()) {
-			play("Sounds/clickedDown.wav");
+			
 			if (nextState.equals("restart")) {
 				gs.restartMap();
 			}else if (nextState.equals("undo")){
@@ -142,7 +153,13 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 					gs.restartMap();
 				}
 				pc.setCurrentDifficulty(nextState);
-				pc.setPanel(nextState);
+				
+				if (resume == false) {
+					pc.setPanel(nextState);
+				} else {
+					pc.setPanelResume(nextState);
+				}
+				
 			}
 		}
 		
