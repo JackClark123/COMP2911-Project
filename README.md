@@ -5,18 +5,6 @@ Sprint
 -design (UML)
 -code
 
-Wednesday At the latest???
-
-Shenghan Gao: Map Generation 
-
-Scott Wu: Map generation 
-
-Kev Lu: 10 predfined levels for each difficulty, How to play 
-
-Akmal Ikraam: UML, Map generation 
-
-Jack Clark: Multiplayer, (portal) 
-
 Demonstartion 
 9:40 - 10:00
 
