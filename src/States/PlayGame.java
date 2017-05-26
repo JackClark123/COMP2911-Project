@@ -24,6 +24,10 @@ public class PlayGame extends JPanel implements State, KeyListener{
 	private GameInfo info;
 	private Player player;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public PlayGame(PanelController pc) {
 		
 		this.addComponentListener( new ComponentAdapter() {

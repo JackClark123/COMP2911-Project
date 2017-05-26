@@ -19,6 +19,10 @@ public class Movement extends JPanel implements State, MouseMotionListener {
 	private Image img, data;
 	private Button returnToMM, objective, movement;
 
+	/**
+	 * Class constructor
+	 * @param pc
+	 */
 	public Movement(PanelController pc) {
 		background = new ImageIcon("Images/howToPlayBackground.png");
 		img = background.getImage();

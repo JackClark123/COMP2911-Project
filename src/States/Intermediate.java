@@ -41,6 +41,10 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	
 	private Button restart, options, next,undo;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public Intermediate(PanelController pc) {
 		
 		background = new ImageIcon("Images/background.png");
@@ -62,14 +66,14 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		generator = new GenerateMap(s, 3, 7, 40);
 		map = generator.getMap();
 		map.generateMap();
-		//
+		
 		mapStack = new Stack<Map>();
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
 
 		info = new GameInfo(900, 0, "intermediate");
 		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
-		//
+		
 		Player playerPre = player.clone();
 		playerStack = new Stack<Player>();
 		playerStack.push(playerPre);
@@ -86,7 +90,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "intermediate", pc);
 		next.setPosition(940, 780);
 		
-		//this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
 		this.addMouseListener(options);
@@ -183,8 +186,9 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		
 	}
 	
+	@Override
 	public void undo() {
-		//
+
 		if(playerStack.isEmpty()||playerStack.size()==1){
 			return;
 		}
@@ -193,7 +197,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		}
 		playerStack.pop();
 		mapStack.pop();
-		//
+
 
 		player.decreaseMoves();
 		map = mapStack.peek().clone();

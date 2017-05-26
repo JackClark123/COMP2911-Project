@@ -37,6 +37,10 @@ public class Multiplayer extends JPanel implements GameState, KeyListener, Mouse
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Multiplayer constructor
+	 * @param pc Panel Controller
+	 */
 	public Multiplayer(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
 		img = background.getImage();
@@ -96,6 +100,9 @@ public class Multiplayer extends JPanel implements GameState, KeyListener, Mouse
 		this.add(player2);
 	}
 	
+	/**
+	 * Generates Multiplayer map
+	 */
 	public void generateMaps() {
 		int seed = 	(int) System.currentTimeMillis();
 		

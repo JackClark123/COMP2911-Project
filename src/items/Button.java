@@ -28,6 +28,13 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	private boolean hovering = false;
 	private boolean resume = false;
 
+	/**
+	 * Button Constructor for Main Menu
+	 * @param image1 Default button Image
+	 * @param image2 Highlighted button Image
+	 * @param nextState Next state in game
+	 * @param pc Panel Controller
+	 */
 	public Button(String image1, String image2, String nextState, PanelController pc) {
 		this.pc = pc;
 		img1 = new ImageIcon(image1);
@@ -37,6 +44,14 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		this.addMouseListener(this);
 	}
 	
+	/**
+	 * Button Constructor for Difficulty Menu
+	 * @param image1 Default button image
+	 * @param image2 Highlighted button image
+	 * @param nextState Next state in game
+	 * @param pc Panel Controller
+	 * @param gs Current game state
+	 */
 	public Button(String image1, String image2, String nextState, PanelController pc, GameState gs) {
 		this.pc = pc;
 		this.gs = gs;
@@ -47,6 +62,15 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		this.addMouseListener(this);
 	}
 	
+	/**
+	 * Button Constructor for multiplayer
+	 * @param image1 Default button image
+	 * @param image2 Highlighted button image
+	 * @param nextState next state
+	 * @param pc Panel controller
+	 * @param gs Current game state
+	 * @param mp Multiplayer flag
+	 */
 	public Button(String image1, String image2, String nextState, PanelController pc, GameState gs, Multiplayer mp) {
 		this.mp = mp;
 		this.pc = pc;
@@ -58,6 +82,14 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		this.addMouseListener(this);
 	}
 	
+	/**
+	 * Button Constructor for resuming game
+	 * @param image1 Default button image
+	 * @param image2 Highlighted button image
+	 * @param nextState Next State
+	 * @param pc Panel Controller
+	 * @param resume Checks whether game is resumed (TRUE/FALSE)
+	 */
 	public Button(String image1, String image2, String nextState, PanelController pc, boolean resume) {
 		this.resume = resume;
 		this.pc = pc;
@@ -70,11 +102,20 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	
 	
 	
+	/**
+	 * Sets button positions
+	 * @param posX Button X position
+	 * @param posY Button Y position
+	 */
 	public void setPosition(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
 	}
 	
+	/**
+	 * Checks if cursor is on a button
+	 * @return true if cursor is on button. false otherwise
+	 */
 	private boolean isCollision() {
 		if (cursorPosX >= posX && cursorPosX <= posX + img1.getIconWidth() && cursorPosY >= posY && cursorPosY <= posY + img1.getIconHeight()) {
 			return true;
@@ -82,6 +123,7 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		return false;
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
 		if (isCollision()) {
@@ -124,10 +166,18 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		
 	}
 
+	/**
+	 * Gets next state in game
+	 * @return next state in game
+	 */
 	public String getNextState() {
 		return nextState;
 	}
 
+	/**
+	 * Sets next state in game
+	 * @param nextState State to set as next state
+	 */
 	public void setNextState(String nextState) {
 		this.nextState = nextState;
 	}

@@ -19,6 +19,10 @@ public class MultiplayerPaused extends JPanel implements State, MouseMotionListe
 	private Button  returnToMM, exitButton, returnToGame;
 	private PanelController pc;
 	
+	/**
+	 * Class constructor
+	 * @param pc Player controller
+	 */
 	public MultiplayerPaused(PanelController pc){
 		
 		this.pc = pc;

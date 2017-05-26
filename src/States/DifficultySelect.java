@@ -18,6 +18,10 @@ private static final long serialVersionUID = 1L;
 	private ImageIcon background;
 	private Image img;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public DifficultySelect(PanelController pc) {
 		background = new ImageIcon("Images/selectDifficultyBackground.png");
 		img = background.getImage();

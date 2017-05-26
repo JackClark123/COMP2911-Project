@@ -13,13 +13,19 @@ public class GenerateMap {
 	private Map map;
 	private int box, moveHolder;
 
+	/**
+	 * Constructor generates random map and populates it
+	 * @param seed Random generation seed
+	 * @param size Overall map size
+	 * @param box Maximum number of boxes
+	 * @param move handles box placement during map generation
+	 */
 	public GenerateMap(int seed, int size, int box, int move) {
 		this.box = box;
 		this.moveHolder = move;
 		size = 3  *  size;
 		map = new Map();
-		// add level here
-		gen = new Generator(new Random(seed), size, size, true);
+		gen = new Generator(new Random(seed), size, size);
 		gen.generate();
 		int[][] mapPre = new int[gen.getMap().getWidth()][gen.getMap().getWidth()];
 		for (int i = 0; i < gen.getMap().getWidth(); i++) {
@@ -47,7 +53,7 @@ public class GenerateMap {
 		}
 
 		while (!this.addItems(mapPre, boxes, goal, Player)) {
-			gen = new Generator(new Random(seed), size, size, true);
+			gen = new Generator(new Random(seed), size, size);
 			gen.generate();
 			mapPre = new int[gen.getMap().getWidth()][gen.getMap().getWidth()];
 			for (int i = 0; i < gen.getMap().getWidth(); i++) {
@@ -78,10 +84,22 @@ public class GenerateMap {
 		}
 	}
 
+	/**
+	 * Gets fully generated map
+	 * @return Generated map
+	 */
 	public Map getMap() {
 		return map;
 	}
 
+	/**
+	 * Populates generated map with player, boxes and goals
+	 * @param map Map to populate
+	 * @param boxes List to store box data
+	 * @param goal List to store goal data
+	 * @param player Stores player position
+	 * @return Fully generated puzzle
+	 */
 	private boolean addItems(int[][] map, ArrayList<Vectors> boxes, ArrayList<Vectors> goal, Vectors player) {
 		// should be change
 		boxes = new ArrayList<Vectors>();
@@ -116,22 +134,31 @@ public class GenerateMap {
 		}
 
 		return moveItems(map, boxes, goal, player);
-	} // move boxes and player
+	} 
 
+	/**
+	 * Move items in map to make the puzzle
+	 * @param map Generated map
+	 * @param boxes List of box data
+	 * @param goal List of goal data
+	 * @param player Player position
+	 * @return True if puzzle successfully generated. False otherwise
+	 */
 	private boolean moveItems(int map[][], ArrayList<Vectors> boxes, ArrayList<Vectors> goal, Vectors player) {
-		// move
+		// Set maximum number of times items are moved
 		int move = moveHolder;
 		int test = 0;
 		while (move != 0 && test < 20000) {
-			// chose a box to move
+			// Choose box to move
 			int max = boxes.size();
 			int boxnum = (int) (Math.random() * max);
-			// chose a direction
+			// Choose direction
 			max = 3;
 			int d = (int) (Math.random() * max);
-			// move
+			//Box not yet moved
 			boolean moved = false;
-			// test
+			// Test for valid box placement. 
+			// moved set to true once valid placement is found
 			if (d == 0 && boxes.get(boxnum).getX() > 1
 					&& map[boxes.get(boxnum).getX() - 1][boxes.get(boxnum).getY()] != 1
 					&& map[boxes.get(boxnum).getX() - 2][boxes.get(boxnum).getY()] != 1
@@ -201,6 +228,8 @@ public class GenerateMap {
 				moved = true;
 			}
 			test++;
+			
+			//Decrease move when moved is true
 			if (moved) {
 				move--;
 			}
@@ -224,6 +253,13 @@ public class GenerateMap {
 
 	}
 
+	/**
+	 * A* Search determines box placement relative to player position
+	 * @param from Player position
+	 * @param to Box position
+	 * @param map Generated map
+	 * @return true for valid box placement, false otherwise
+	 */
 	private boolean Asearch(Vectors from, Vectors to, int[][] map) {
 		PriorityQueue<Vectors> open = new PriorityQueue<Vectors>(new VecotorsComparator());
 		ArrayList<Vectors> close = new ArrayList<Vectors>();
@@ -312,6 +348,13 @@ public class GenerateMap {
 		}
 		return false;
 	}
+	
+	/**
+	 * Heuristic value for A* method
+	 * @param from current position
+	 * @param to final position
+	 * @return distance between positions
+	 */
 	private double hx(Vectors from, Vectors to) {
 		return Math.sqrt((from.getX() - to.getX()) * (from.getX() - to.getX())
 				+ (from.getY() - to.getY()) * (from.getY() - to.getY()));

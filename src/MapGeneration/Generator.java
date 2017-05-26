@@ -10,20 +10,32 @@ public class Generator {
 	TemplateFill filler;
 	Random r;
 	
-	public Generator(Random r, int width, int height, boolean bound){
+	/**
+	 * Generator constructor
+	 * @param r random seed
+	 * @param width Map width
+	 * @param height Map height
+	 */
+	public Generator(Random r, int width, int height){
 		this.r=r;
 		this.width=width;
 		this.height=height;
-		this.bound = bound;
 		
 		filler = new TemplateFill(r);
 	}
 	
+	/**
+	 * Randomly fills map with given templates
+	 */
 	public void generate(){
-		templateMap = new TemplateMap(bound, width, height);
+		templateMap = new TemplateMap(width, height);
 		filler.fill(templateMap);
 	}
 	
+	/**
+	 * Gets the generated map
+	 * @return Generated map
+	 */
 	public TemplateMap getMap(){
 		if(this.templateMap == null){
 			System.out.println("Empty map");

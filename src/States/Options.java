@@ -19,6 +19,10 @@ public class Options extends JPanel implements State, MouseMotionListener {
 	private Button difficulty, returnToMM, exitButton, returnToGame;
 	private PanelController pc;
 	
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public Options(PanelController pc){
 		
 		this.pc = pc;

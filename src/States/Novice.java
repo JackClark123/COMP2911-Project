@@ -31,14 +31,17 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	private Player player;
 	private ImageIcon background;
 	private Image img;
-	//
+	
 	private GenerateMap generator;
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
-	//
 	
 	private Button restart, options, next,undo;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public Novice(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
 		img = background.getImage();

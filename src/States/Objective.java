@@ -19,6 +19,10 @@ public class Objective extends JPanel implements State, MouseMotionListener {
 	private Image img, info, data;
 	private Button returnToMM, objective, movement;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public Objective(PanelController pc) {
 		background = new ImageIcon("Images/howToPlayBackground.png");
 		img = background.getImage();

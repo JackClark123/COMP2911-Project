@@ -40,6 +40,10 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	
 	private Button restart, options, next, undo;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public Expert(PanelController pc) {
 		background = new ImageIcon("Images/background.png");
 		img = background.getImage();
@@ -171,7 +175,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		map.setNumBoxesInPlace(0);
 		playerStack.clear();
 		mapStack.clear();
-		//
+
 	    Map mapPre = map.clone();
 		mapStack.push(mapPre);		
 		Player playerpre = player.clone();
@@ -182,7 +186,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 
 	@Override
 	public void undo() {
-		//
+
 		if(playerStack.isEmpty()||playerStack.size()==1){
 			return;
 		}
@@ -191,7 +195,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		}
 		playerStack.pop();
 		mapStack.pop();
-		//
+
 
 		player.decreaseMoves();
 		map = mapStack.peek().clone();

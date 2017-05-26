@@ -37,10 +37,6 @@ public enum Template {
 			makeRow(Tiles.WALL,Tiles.FLOOR,Tiles.WALL),
 			makeRow(Tiles.FLOOR,Tiles.FLOOR,Tiles.FLOOR),
 			makeRow(Tiles.WALL,Tiles.FLOOR,Tiles.WALL))),
-	//J(makeTiles(
-	//		makeRow(Tiles.WALL,Tiles.FLOOR,Tiles.WALL),
-	//		makeRow(Tiles.WALL,Tiles.FLOOR,Tiles.FLOOR),
-	//		makeRow(Tiles.WALL,Tiles.WALL,Tiles.WALL))),
 	K(makeTiles(
 			makeRow(Tiles.WALL,Tiles.WALL,Tiles.WALL),
 			makeRow(Tiles.WALL,Tiles.FLOOR,Tiles.FLOOR),
@@ -56,22 +52,32 @@ public enum Template {
 	N(makeTiles(
 			makeRow(Tiles.WALL,Tiles.WALL,Tiles.WALL),
 			makeRow(Tiles.FLOOR,Tiles.WALL,Tiles.FLOOR),
-			makeRow(Tiles.FLOOR,Tiles.FLOOR,Tiles.FLOOR))),
-	
-	
-	
-	;
+			makeRow(Tiles.FLOOR,Tiles.FLOOR,Tiles.FLOOR)));
 	
 	public Tiles[][] tiles;
 	
+	/**
+	 * Template constructor
+	 * @param t 2D Array of tiles
+	 */
 	private Template(Tiles[][] t){
 		this.tiles = t;
 	}
 	
+	/**
+	 * Makes row of tiles
+	 * @param t Tiles to put in row 
+	 * @return Array of tiles
+	 */
 	private static Tiles[] makeRow(Tiles...t){
 		return t;
 	}
 	
+	/**
+	 * Creates tiles for template
+	 * @param rows Row to put
+	 * @return Row of tiles
+	 */
 	private static Tiles[][] makeTiles(Tiles[]...rows){
 		Tiles[][] result = new Tiles[rows[0].length][rows.length];
 		

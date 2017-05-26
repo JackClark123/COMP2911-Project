@@ -12,6 +12,10 @@ public class ReadFile {
 	private Map map;
 	private MultiplayerMap multiplayerMap;
 
+	/**
+	 * Reads given file
+	 * @param filename file to read
+	 */
 	public ReadFile(String filename) {
 		
 		map = new Map();
@@ -35,6 +39,11 @@ public class ReadFile {
 		}
 	}
 	
+	/**
+	 * Handles data on input line
+	 * @param line line being read
+	 * @param linenumber line number being read
+	 */
 	private void lineHandler(char[] line, int linenumber) {
 		ArrayList<Integer> row = new ArrayList<Integer>();
 		for (int i = 0; i < line.length; i++) {
@@ -44,14 +53,18 @@ public class ReadFile {
 		map.addRow(row);
 	}
 
+	/**
+	 * Gets playing map
+	 * @return Playing map
+	 */
 	public Map getMap() {
 		return map;
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
-	}
+	}	
 	
+	/**
+	 * Gets multiplayer map
+	 * @return Multiplayer map
+	 */
 	public MultiplayerMap getMultiplayerMap() {
 		return multiplayerMap;
 	}

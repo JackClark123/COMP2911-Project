@@ -16,11 +16,17 @@ public class TextBox extends JComponent implements KeyListener{
 	
 	private boolean empty = true;
 
+	/**
+	 * Constructor handles Text Box position
+	 * @param posX Text X position
+	 * @param posY Text Y position
+	 */
 	public TextBox(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
 	}
 	
+	//Text graphics. Font: Times New Roman. Size: 18
 	public void paint(Graphics g) {
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 18)); 
 		if (empty) {
@@ -32,6 +38,11 @@ public class TextBox extends JComponent implements KeyListener{
 		}
 	}
 	
+	/**
+	 * Requests number of boxes to use in game. 
+	 * In multiplayer mode, requests number of boxes to use in game
+	 * @return Number of boxes. Default is 0
+	 */
 	public int getNum() {
 		if (!text.equals("Enter number")) {
 			return Integer.parseInt(text);
@@ -52,22 +63,6 @@ public class TextBox extends JComponent implements KeyListener{
 		}
 		
 		repaint();
-	}
-
-	public int getPosX() {
-		return posX;
-	}
-
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-
-	public int getPosY() {
-		return posY;
-	}
-
-	public void setPosY(int posY) {
-		this.posY = posY;
 	}
 
 	@Override

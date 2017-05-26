@@ -15,6 +15,12 @@ public class GameInfo {
 	private ImageIcon background, completed;
 	private Image img, img2;
 
+	/**
+	 * Class constructor
+	 * @param offsetX X position of button
+	 * @param offsetY Y position of button
+	 * @param difficulty String to check
+	 */
 	public GameInfo(int offsetX, int offsetY, String difficulty) {
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
@@ -33,18 +39,23 @@ public class GameInfo {
 		img2 = completed.getImage();
 	}
 	
+	/**
+	 * Sets current number of moves
+	 * @param moves number to set
+	 */
 	public void setMoves(int moves) {
 		this.moves = moves;
 	}
-	
-	public boolean isComplete() {
-		return complete;
-	}
 
+	/**
+	 * Sets completion state
+	 * @param complete flag set 
+	 */
 	public void setComplete(boolean complete) {
 		this.complete = complete;
 	}
 
+	//Prints text in given font and size
 	public void print(Graphics g) {
 		g.translate(offsetX, offsetY);
 		

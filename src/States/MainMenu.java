@@ -20,6 +20,10 @@ public class MainMenu extends JPanel implements State, MouseMotionListener{
 	private ImageIcon background;
 	private Image img;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public MainMenu(PanelController pc) {
 		this.setPreferredSize(new Dimension(100, 100));
 		startButton = new Button("Images/startButtonUp.png", "Images/startButtonDown.png", "diffselect", pc);

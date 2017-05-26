@@ -39,6 +39,10 @@ public class PanelController extends JPanel{
 	
 	private String currentDifficulty;
 	
+	/**
+	 * Class constructor
+	 * @param frame Window frame
+	 */
 	public PanelController(JFrame frame) {
 		this.frame = frame;
 		this.currentDifficulty = null;
@@ -65,6 +69,10 @@ public class PanelController extends JPanel{
 		this.add(movement, "movement");
 	}
 	
+	/**
+	 * Sets action depending on panel name
+	 * @param panelName Panel name to check
+	 */
 	public void setPanel(String panelName) {
 		if (panelName.equals("exit")) {
 			frame.dispose();

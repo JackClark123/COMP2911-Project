@@ -1,6 +1,5 @@
 package Map;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,31 +20,9 @@ public class Map implements Cloneable{
 	
 	private List<Wall> walls;
 	private List<Box> boxes;
-	
-	//new undo button
-	public List<Box> getBoxes() {
-		return boxes;
-	}
-	public void setBoxes(List<Box> boxes) {
-		this.boxes = boxes;
-	}
-	
 	private List<Cross> crosses;
 	
-	public void setCrosses(List<Cross> Crosses) {
-		this.crosses= Crosses;
-	}
-	
 	private ArrayList<ArrayList<Integer>> mapArrayList;
-	
-	//new undo button
-	public ArrayList<ArrayList<Integer>> getMapArrayList() {
-		return mapArrayList;
-	}
-	public void setMapArrayList(ArrayList<ArrayList<Integer>> mapArrayList) {
-		this.mapArrayList = mapArrayList;
-	}
-	
 	private ArrayList<ArrayList<Integer>> orginalMapArrayList;
 	
 	private int playerX, playerY;
@@ -54,14 +31,9 @@ public class Map implements Cloneable{
 	
 	private int gridSpacing;
 	
-	public int getGridSpacing() {
-		return gridSpacing;
-	}
-
-	public void setGridSpacing(int gridSpacing) {
-		this.gridSpacing = gridSpacing;
-	}
-
+	/**
+	 * Map Constructor
+	 */
 	public Map() {
 		
 		walls = new ArrayList<Wall>();
@@ -70,9 +42,41 @@ public class Map implements Cloneable{
 		mapArrayList = new ArrayList<ArrayList<Integer>>();
 		orginalMapArrayList = new ArrayList<ArrayList<Integer>>();
 	}
+
+	/**
+	 * Sets the list of box data
+	 * @param boxes Box data to use
+	 */
+	public void setBoxes(List<Box> boxes) {
+		this.boxes = boxes;
+	}
 	
+	/**
+	 * Set list of goal data
+	 * @param Crosses Goal data to use
+	 */
+	public void setCrosses(List<Cross> Crosses) {
+		this.crosses= Crosses;
+	}
+	
+	/**
+	 * Set map data
+	 * @param mapArrayList Map data to use
+	 */
+	public void setMapArrayList(ArrayList<ArrayList<Integer>> mapArrayList) {
+		this.mapArrayList = mapArrayList;
+	}
+	
+	/**
+	 * Gets the grid spacing for map
+	 * @return map grid spacing
+	 */
+	public int getGridSpacing() {
+		return gridSpacing;
+	}
+
+	//Clones current map
 	public Map clone(){
-		//may clone other staff
 		Map o = null;
 		try{ 
 			o = (Map)super.clone();
@@ -95,11 +99,19 @@ public class Map implements Cloneable{
 		return o;  
 	}
 	
+	/**
+	 * Adds new row to map
+	 * @param row row to add to map
+	 */
 	public void addRow(ArrayList<Integer> row) {
 		mapArrayList.add(row);
 	}
 	
 	
+	/**
+	 * Checks if puzzle is completed
+	 * @return True if all boxes are on goals. False otherwise
+	 */
 	public boolean mapComplete() {
 		if (numBoxesInPlace == numCrosses) {
 			return true;
@@ -107,6 +119,13 @@ public class Map implements Cloneable{
 		return false;
 	}
 	
+	/**
+	 * Checks for collision between objects and shift player and movable objects if possible
+	 * Also checks number of boxes on goal
+	 * @param deltaX X position to shift
+	 * @param deltaY Y position to shift
+	 * @param player Player
+	 */
 	private void itemCollisionHandling(int deltaX, int deltaY, Player player) {
 		boolean setBack = false;
 		int numBoxes = 0;
@@ -144,6 +163,14 @@ public class Map implements Cloneable{
 		}
 	}
 	
+	/**
+	 * Checks player collision and shift player position if movement is valid
+	 * @param posX Player current X position
+	 * @param posY Player current Y position
+	 * @param prevX Player previous X position
+	 * @param prevY Player previous Y position
+	 * @param player Player
+	 */
 	public void playerCollisonHandling(int posX, int posY, int prevX, int prevY, Player player) {
 		if (posX >= 0 && posX < mapArrayList.size() && posY >= 0 && posY < mapArrayList.get(posY).size()) {
 			if (mapArrayList.get(posY).get(posX) != EMPTY && mapArrayList.get(posY).get(posX) != PLAYER && mapArrayList.get(posY).get(posX) != CROSS) {
@@ -180,6 +207,10 @@ public class Map implements Cloneable{
 		
 	}
 	
+	/**
+	 * Resets map and returns player to starting position
+	 * @param player Player
+	 */
 	public void resetMap(Player player) {
 		player.setMoves(0);
 		player.setSpacing(gridSpacing);
@@ -215,6 +246,11 @@ public class Map implements Cloneable{
 		
 	}
 	
+	/**
+	 * Copies data in ArrayList
+	 * @param input data to copy
+	 * @return copy of input data
+	 */
 	public static ArrayList<ArrayList<Integer>> copy(ArrayList<ArrayList<Integer>> input) {
 	    ArrayList<ArrayList<Integer>> copy = new ArrayList<ArrayList<Integer>>(input.size());
 	    
@@ -230,6 +266,9 @@ public class Map implements Cloneable{
 	    return copy;
 	}
 	
+	/**
+	 * Generates map from input data
+	 */
 	public void generateMap() {
 		//copy mapArray to orginalMap
 		orginalMapArrayList = copy(mapArrayList);
@@ -258,23 +297,17 @@ public class Map implements Cloneable{
 			}
 		}
 		
-	}
+	}	
 	
-	public void paintGrid(Graphics g) {
-		for (int i = 0; i < mapArrayList.size(); i++) {
-			for (int j = 0; j < mapArrayList.get(i).size(); j++) {
-				g.setColor(Color.DARK_GRAY);
-				g.drawRect(i * gridSpacing, j * gridSpacing, gridSpacing, gridSpacing);
-			}
-		}
-	}
-	
+	//Paints walls with image
 	public void paintWalls(Graphics g) {
 		for (Wall temp : walls) {
 			temp.print(g);
 		}
 	}
 	
+	//Paint boxes with image
+	//Image depends on whether box is on goal
 	public void paintBoxes(Graphics g) {
 		for (Box temp : boxes) {
 			for (Cross temp2 : crosses){
@@ -286,38 +319,56 @@ public class Map implements Cloneable{
 		}
 	}
 	
+	//Paint goal with image
 	public void paintCrosses(Graphics g) {
 		for (Cross temp : crosses) {
 			temp.print(g);
 		}
 	}
 	
+	//Paints map
 	public void paint(Graphics g) {
 		paintWalls(g);
 		paintCrosses(g);
 		paintBoxes(g);
 	}
 
+	/**
+	 * Get player X position
+	 * @return Player X position
+	 */
 	public int getPlayerX() {
 		return playerX;
 	}
 
+	/**
+	 * Sets player X position
+	 * @param playerX X position to set
+	 */
 	public void setPlayerX(int playerX) {
 		this.playerX = playerX;
 	}
 
+	/**
+	 * Get player Y position
+	 * @return Player Y position
+	 */
 	public int getPlayerY() {
 		return playerY;
 	}
 
+	/**
+	 * Set player Y position
+	 * @param playerY Y position to set
+	 */
 	public void setPlayerY(int playerY) {
 		this.playerY = playerY;
 	}
-
-	public int getNumBoxesInPlace() {
-		return numBoxesInPlace;
-	}
-
+	
+	/**
+	 * Sets number of boxes on goal
+	 * @param numBoxesInPlace Number to set
+	 */
 	public void setNumBoxesInPlace(int numBoxesInPlace) {
 		this.numBoxesInPlace = numBoxesInPlace;
 	}

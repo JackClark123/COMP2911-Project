@@ -19,6 +19,10 @@ public class HowToPlay extends JPanel implements State, MouseMotionListener {
 	private ImageIcon background;
 	private Image img;
 
+	/**
+	 * Class constructor
+	 * @param pc Panel Controller
+	 */
 	public HowToPlay(PanelController pc) {
 		background = new ImageIcon("Images/howToPlayBackground.png");
 		img = background.getImage();
