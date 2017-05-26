@@ -50,7 +50,6 @@ public class PanelController extends JPanel{
 		
 		mainmenu = new MainMenu(this);
 		game = new PlayGame(this);
-		multiplayer = new Multiplayer(this);
 		diffSelect = new DifficultySelect(this);
 		options = new Options(this);
 		multiplayerPaused = new MultiplayerPaused(this);
@@ -59,7 +58,6 @@ public class PanelController extends JPanel{
 		
 		this.add(mainmenu, "mainmenu");
 		this.add(game, "game");
-		this.add(multiplayer, "multiplayer");
 		this.add(diffSelect, "diffselect");
 		this.add(options, "options");
 		this.add(multiplayerPaused, "multiplayerPaused");
@@ -81,6 +79,9 @@ public class PanelController extends JPanel{
 		} else if (panelName.equals("expert")) {
 			expert = new Expert(this);
 			this.add(expert, "expert");
+		} else if (panelName.equals("multiplayer")) {
+			multiplayer = new Multiplayer(this);
+			this.add(multiplayer, "multiplayer");
 		}
 		
 		cardLayout.show(this, panelName);

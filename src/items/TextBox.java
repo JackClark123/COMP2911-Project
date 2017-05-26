@@ -33,7 +33,10 @@ public class TextBox extends JComponent implements KeyListener{
 	}
 	
 	public int getNum() {
-		return Integer.parseInt(text);
+		if (!text.equals("Enter number")) {
+			return Integer.parseInt(text);
+		}
+		return 0;
 	}
 
 	@Override

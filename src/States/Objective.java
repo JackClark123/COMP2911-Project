@@ -32,7 +32,7 @@ public class Objective extends JPanel implements State, MouseMotionListener {
 		objective = new Button("Images/objectiveButtonUp.png", "Images/objectiveButtonDown.png", "objective", pc);
 		objective.setPosition(50, 200);
 		
-		movement = new Button("Images/movementButtonUp.png", "Images/movementButtonDown.png", "objective", pc);
+		movement = new Button("Images/movementButtonUp.png", "Images/movementButtonDown.png", "movement", pc);
 		movement.setPosition(50, 290);
 		
 		this.addMouseListener(returnToMM);

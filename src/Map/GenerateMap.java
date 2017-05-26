@@ -122,7 +122,7 @@ public class GenerateMap {
 		// move
 		int move = moveHolder;
 		int test = 0;
-		while (move != 0 && test < 700) {
+		while (move != 0 && test < 20000) {
 			// chose a box to move
 			int max = boxes.size();
 			int boxnum = (int) (Math.random() * max);

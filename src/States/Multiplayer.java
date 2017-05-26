@@ -82,8 +82,10 @@ public class Multiplayer extends JPanel implements GameState, KeyListener, Mouse
 		this.addMouseMotionListener(pause);
 		this.addMouseListener(play);
 		this.addMouseMotionListener(play);
+		
 		this.addKeyListener(player1);
 		this.addKeyListener(player2);
+		
 		this.addKeyListener(textBox);	
 		
 		this.add(textBox);
