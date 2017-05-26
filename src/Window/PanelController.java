@@ -50,11 +50,7 @@ public class PanelController extends JPanel{
 		
 		mainmenu = new MainMenu(this);
 		game = new PlayGame(this);
-		multiplayer = new Multiplayer(this);
 		diffSelect = new DifficultySelect(this);
-		novice = new Novice(this);
-		intermediate = new Intermediate(this);
-		expert = new Expert(this);
 		options = new Options(this);
 		multiplayerPaused = new MultiplayerPaused(this);
 		objective = new Objective(this);
@@ -62,11 +58,7 @@ public class PanelController extends JPanel{
 		
 		this.add(mainmenu, "mainmenu");
 		this.add(game, "game");
-		this.add(multiplayer, "multiplayer");
 		this.add(diffSelect, "diffselect");
-		this.add(novice, "novice");
-		this.add(intermediate, "intermediate");
-		this.add(expert, "expert");
 		this.add(options, "options");
 		this.add(multiplayerPaused, "multiplayerPaused");
 		this.add(objective, "objective");
@@ -77,6 +69,25 @@ public class PanelController extends JPanel{
 		if (panelName.equals("exit")) {
 			frame.dispose();
 		}
+		
+		if (panelName.equals("novice")) {
+			novice = new Novice(this);
+			this.add(novice, "novice");
+		} else if (panelName.equals("intermediate")) {
+			intermediate = new Intermediate(this);
+			this.add(intermediate, "intermediate");
+		} else if (panelName.equals("expert")) {
+			expert = new Expert(this);
+			this.add(expert, "expert");
+		} else if (panelName.equals("multiplayer")) {
+			multiplayer = new Multiplayer(this);
+			this.add(multiplayer, "multiplayer");
+		}
+		
+		cardLayout.show(this, panelName);
+	}
+	
+	public void setPanelResume(String panelName) {
 		cardLayout.show(this, panelName);
 	}
 	

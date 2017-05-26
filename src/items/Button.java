@@ -5,18 +5,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
@@ -25,7 +14,7 @@ import States.Multiplayer;
 import Window.PanelController;
 
 
-public class Button extends JComponent implements MouseListener, MouseMotionListener, LineListener {
+public class Button extends JComponent implements MouseListener, MouseMotionListener{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -37,6 +26,7 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 	private GameState gs;
 	private Multiplayer mp;
 	private boolean hovering = false;
+	private boolean resume = false;
 
 	public Button(String image1, String image2, String nextState, PanelController pc) {
 		this.pc = pc;
@@ -68,6 +58,16 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		this.addMouseListener(this);
 	}
 	
+	public Button(String image1, String image2, String nextState, PanelController pc, boolean resume) {
+		this.resume = resume;
+		this.pc = pc;
+		img1 = new ImageIcon(image1);
+		img2 = new ImageIcon(image2);
+		this.nextState = nextState;
+		this.addMouseListener(this);
+		this.addMouseListener(this);
+	}
+	
 	
 	
 	public void setPosition(int posX, int posY) {
@@ -86,7 +86,6 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		super.paintComponents(g);
 		if (isCollision()) {
 			if (hovering == false) {
-				play("Sounds/hovered.wav");
 				hovering = true;
 			}
 			Image button = img1.getImage();
@@ -98,39 +97,10 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		}
 	}
 	
-	void play(String audioFilePath) {
-        File audioFile = new File(audioFilePath);
- 
-        try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
- 
-            AudioFormat format = audioStream.getFormat();
- 
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
- 
-            Clip audioClip = (Clip) AudioSystem.getLine(info);
- 
-            audioClip.addLineListener(this);
- 
-            audioClip.open(audioStream);
-             
-            audioClip.start();
-             
-             
-        } catch (UnsupportedAudioFileException ex) {
-            ex.printStackTrace();
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-         
-    }
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (isCollision()) {
-			play("Sounds/clickedDown.wav");
+			
 			if (nextState.equals("restart")) {
 				gs.restartMap();
 			}else if (nextState.equals("undo")){
@@ -142,7 +112,13 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 					gs.restartMap();
 				}
 				pc.setCurrentDifficulty(nextState);
-				pc.setPanel(nextState);
+				
+				if (resume == false) {
+					pc.setPanel(nextState);
+				} else {
+					pc.setPanelResume(nextState);
+				}
+				
 			}
 		}
 		
@@ -191,11 +167,4 @@ public class Button extends JComponent implements MouseListener, MouseMotionList
 		cursorPosX = e.getX();
 		cursorPosY = e.getY();
 	}
-
-	@Override
-	public void update(LineEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
