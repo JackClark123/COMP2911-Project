@@ -279,7 +279,7 @@ public class Map implements Cloneable{
 		for (Box temp : boxes) {
 			for (Cross temp2 : crosses){
 				if (temp.getX() == temp2.getX() && temp.getY() == temp2.getY()){
-					temp.setImage("Images/playerFront2.png");
+					temp.setImage("Images/hayStack.png");
 				}
 			}
 			temp.print(g);
