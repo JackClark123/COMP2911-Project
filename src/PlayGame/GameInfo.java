@@ -52,7 +52,14 @@ public class GameInfo {
 		
 		g.setFont(new Font("Helvetica", Font.PLAIN, 40)); 
 		g.setColor(Color.WHITE);
-		g.drawString("" + moves, 180, 550);
+		
+		if(moves < 10){
+			g.drawString("" + moves, 178, 370);
+		}else if(moves < 100){
+			g.drawString("" + moves, 170, 370);
+		}else{
+			g.drawString("" + moves, 152, 370);
+		}
 		
 		g.translate(-offsetX, -offsetY);
 		
