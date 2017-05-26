@@ -32,6 +32,10 @@ public class Map implements Cloneable{
 	
 	private List<Cross> crosses;
 	
+	public void setCrosses(List<Cross> Crosses) {
+		this.crosses= Crosses;
+	}
+	
 	private ArrayList<ArrayList<Integer>> mapArrayList;
 	
 	//new undo button
@@ -77,12 +81,18 @@ public class Map implements Cloneable{
 				Box box = new Box(boxes.get(i).getX(),boxes.get(i).getY(), gridSpacing, gridSpacing);
 				boxesNew.add(box);
 			}
+			List<Cross> crossNew = new ArrayList<Cross>();
+			for(int i = 0 ;i<boxes.size();i++){
+				Cross cross = new Cross(crosses.get(i).getX(),crosses.get(i).getY(), gridSpacing, gridSpacing);
+				crossNew.add(cross);
+			}
+			o.setCrosses(crossNew);
 			o.setBoxes(boxesNew);
 			o.setMapArrayList(copy(this.mapArrayList));
 		}catch(CloneNotSupportedException e){ 
 			e.printStackTrace(); 
 		} 
-			return o;  
+		return o;  
 	}
 	
 	public void addRow(ArrayList<Integer> row) {
@@ -201,6 +211,8 @@ public class Map implements Cloneable{
 				
 			}
 		}
+		this.setNumBoxesInPlace(0);
+		
 	}
 	
 	public static ArrayList<ArrayList<Integer>> copy(ArrayList<ArrayList<Integer>> input) {

@@ -109,7 +109,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), null);
-		//map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 
 		map.paint(g);
 		player.paint(g);
@@ -143,9 +143,9 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
-		
 		Player playerpre = player.clone();
 		playerStack.push(playerpre);
+		//
 		repaint();
 	}
 
@@ -170,32 +170,33 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	@Override
 	public void restartMap() {
 		map.resetMap(player);
+		player.setPosition(map.getPlayerX(), map.getPlayerY());
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		map.setNumBoxesInPlace(0);
 		playerStack.clear();
 		mapStack.clear();
-		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (this.getKeyListeners() == null) {
-			this.addKeyListener(player);
-		}
-		map.setNumBoxesInPlace(0);
+		//
+	    Map mapPre = map.clone();
+		mapStack.push(mapPre);		
+		Player playerpre = player.clone();
+		playerStack.push(playerpre);
+		
 	}
 	
 	public void undo() {
-		if(playerStack.isEmpty()){
+		//
+		if(playerStack.isEmpty()||playerStack.size()==1){
 			return;
 		}
-		if(mapStack.isEmpty()){
+		if(mapStack.isEmpty()||mapStack.size()==1){
 			return;
 		}
 		playerStack.pop();
 		mapStack.pop();
-		if(playerStack.isEmpty()){
-			return;
-		}
-		if(mapStack.isEmpty()){
-			return;
-		}
+		//
+
 		player.decreaseMoves();
-		map = mapStack.peek();
+		map = mapStack.peek().clone();
 		player.setPosX(playerStack.peek().getPosX());
 		player.setPosY(playerStack.peek().getPosY());
 		repaint();

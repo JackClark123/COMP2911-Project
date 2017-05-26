@@ -35,6 +35,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	private GenerateMap generator;
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
+	//
 	
 	private Button restart, options, next,undo;
 
@@ -51,8 +52,6 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 
 		this.setPreferredSize(new Dimension(1280, 900));
 
-		//file = new ReadFile("input.txt");
-		//map = file.getMap();
 		int max=20;
         int min=10;
         Random random = new Random();
@@ -62,6 +61,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		map.generateMap();
 		//
 		mapStack = new Stack<Map>();
+		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
 
@@ -106,11 +106,17 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	public void restartMap() {
 		map.resetMap(player);
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (this.getKeyListeners() == null) {
-			this.addKeyListener(player);
-		}
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		map.setNumBoxesInPlace(0);
 		playerStack.clear();
 		mapStack.clear();
+		//
+	    Map mapPre = map.clone();
+		mapStack.push(mapPre);		
+		Player playerpre = player.clone();
+		playerStack.push(playerpre);
+		
+		
 		map.setNumBoxesInPlace(0);
 	}
 
@@ -149,9 +155,9 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
-		
 		Player playerpre = player.clone();
 		playerStack.push(playerpre);
+		//
 		repaint();
 	}
 
@@ -175,22 +181,18 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 	@Override
 	public void undo() {
 		//
-		if(playerStack.isEmpty()){
+		if(playerStack.isEmpty()||playerStack.size()==1){
 			return;
 		}
-		if(mapStack.isEmpty()){
+		if(mapStack.isEmpty()||mapStack.size()==1){
 			return;
 		}
 		playerStack.pop();
 		mapStack.pop();
-		if(playerStack.isEmpty()){
-			return;
-		}
-		if(mapStack.isEmpty()){
-			return;
-		}
+		//
+
 		player.decreaseMoves();
-		map = mapStack.peek();
+		map = mapStack.peek().clone();
 		player.setPosX(playerStack.peek().getPosX());
 		player.setPosY(playerStack.peek().getPosY());
 		repaint();

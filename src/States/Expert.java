@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 
 import Map.GenerateMap;
 import Map.Map;
-import Map.ReadFile;
 import PlayGame.GameInfo;
 import Window.PanelController;
 import items.Button;
@@ -26,7 +25,6 @@ import items.Player;
 public class Expert extends JPanel implements GameState, KeyListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 
-	private ReadFile file;
 	private Map map;
 	
 	private GameInfo info;
@@ -108,7 +106,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), null);
-		//map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 
 		map.paint(g);
 		player.paint(g);
@@ -142,9 +140,9 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
-		
 		Player playerpre = player.clone();
 		playerStack.push(playerpre);
+		//
 		repaint();
 	}
 
@@ -168,33 +166,35 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	@Override
 	public void restartMap() {
 		map.resetMap(player);
+		player.setPosition(map.getPlayerX(), map.getPlayerY());
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		map.setNumBoxesInPlace(0);
 		playerStack.clear();
 		mapStack.clear();
-		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (this.getKeyListeners() == null) {
-			this.addKeyListener(player);
-		}
-		map.setNumBoxesInPlace(0);
+		//
+	    Map mapPre = map.clone();
+		mapStack.push(mapPre);		
+		Player playerpre = player.clone();
+		playerStack.push(playerpre);
+		
+		
 	}
 
 	@Override
 	public void undo() {
-		if(playerStack.isEmpty()){
+		//
+		if(playerStack.isEmpty()||playerStack.size()==1){
 			return;
 		}
-		if(mapStack.isEmpty()){
+		if(mapStack.isEmpty()||mapStack.size()==1){
 			return;
 		}
 		playerStack.pop();
 		mapStack.pop();
-		if(playerStack.isEmpty()){
-			return;
-		}
-		if(mapStack.isEmpty()){
-			return;
-		}
+		//
+
 		player.decreaseMoves();
-		map = mapStack.peek();
+		map = mapStack.peek().clone();
 		player.setPosX(playerStack.peek().getPosX());
 		player.setPosY(playerStack.peek().getPosY());
 		repaint();
