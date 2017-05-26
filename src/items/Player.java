@@ -111,6 +111,14 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 			moving = false;
 		}
 	}
+	
+	public void decreaseMoves(){
+		if(moves <= -1){
+			return;
+		}else{
+			moves--;
+		}
+	}
 
 	public int getPrevX() {
 		return prevX;
@@ -205,6 +213,5 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
 	}
 }
