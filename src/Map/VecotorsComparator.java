@@ -1,7 +1,7 @@
 package Map;
 import java.util.*;
 
-import MapG.Vectors;
+import MapGeneration.Vectors;
 
 public class VecotorsComparator implements Comparator<Vectors>{
 

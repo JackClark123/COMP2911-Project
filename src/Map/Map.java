@@ -246,27 +246,6 @@ public class Map implements Cloneable{
 			}
 		}
 		
-		/*
-		for (int i = 0; i < sizeX; i++) {
-			for (int j = 0; j < sizeY; j++) {
-				if (orginalMap[i][j] == WALL) {
-					Wall wall = new Wall(i, j, GRIDSPACING, GRIDSPACING);
-					walls.add(wall);
-				} else if (orginalMap[i][j] == PLAYER) {
-					mapArray[i][j] = EMPTY;
-					setPlayerX(i);
-					setPlayerY(j);
-				} else if (orginalMap[i][j] == BOX) {
-					Box box = new Box(i, j, GRIDSPACING, GRIDSPACING);
-					boxes.add(box);
-				} else if (orginalMap[i][j] == CROSS) {
-					numCrosses++;
-					Cross cross = new Cross(i, j, GRIDSPACING, GRIDSPACING);
-					crosses.add(cross);
-				}
-				
-			}
-		}*/
 	}
 	
 	public void paintGrid(Graphics g) {

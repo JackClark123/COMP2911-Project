@@ -92,6 +92,10 @@ public class PanelController extends JPanel{
 		cardLayout.show(this, panelName);
 	}
 	
+	public void setPanelResume(String panelName) {
+		cardLayout.show(this, panelName);
+	}
+	
 	public void setCurrentDifficulty(String panelName){
 		if(panelName.equals("novice")){
 			currentDifficulty = "novice";

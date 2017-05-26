@@ -57,7 +57,7 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
         int min=10;
         Random random = new Random();
         int s = random.nextInt(max)%(max-min+1) + min;
-		generator = new GenerateMap(s, 2, 3, 15);
+		generator = new GenerateMap(s, 2, 4, 15);
 		map=generator.getMap();
 		map.generateMap();
 		//
