@@ -218,7 +218,6 @@ public class GenerateMap {
 			}
 		}
 		if (find != 1 || test == 700||num<boxes.size()-1) {
-			System.out.println("nooo");
 			return false;
 		}
 		return true;
