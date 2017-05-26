@@ -9,13 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import Map.GenerateMap;
 import Map.Map;
-import Map.ReadFile;
 import PlayGame.GameInfo;
 import Window.PanelController;
 import items.Button;
@@ -25,7 +26,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 	private static final long serialVersionUID = 1L;
 
-	private ReadFile file;
 	private Map map;
 	
 	private GameInfo info;
@@ -34,12 +34,15 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
 	
+	private GenerateMap generator;
+	
 	private ImageIcon background;
 	private Image img;
 	
 	private Button restart, options, next,undo;
 
 	public Intermediate(PanelController pc) {
+		
 		background = new ImageIcon("Images/background.png");
 		img = background.getImage();
 
@@ -52,29 +55,34 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 		this.setPreferredSize(new Dimension(1280, 900));
 
-		file = new ReadFile("Levels/Intermediate/Intermediate1");
-		map = file.getMap();
+		int max=20;
+        int min=10;
+        Random random = new Random();
+        int s = random.nextInt(max)%(max-min+1) + min;
+		generator = new GenerateMap(s, 3, 7, 40);
+		map = generator.getMap();
 		map.generateMap();
-		
+		//
 		mapStack = new Stack<Map>();
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
 
 		info = new GameInfo(900, 0, "intermediate");
 		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
-		
+		//
 		Player playerPre = player.clone();
 		playerStack = new Stack<Player>();
 		playerStack.push(playerPre);
 
-		restart = new Button("Images/restartLevelUp.png", "Images/restartLevelDown.png", "restart", pc, this);
-		restart.setPosition(940, 580);
+		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
+		restart.setPosition(1040, 580);
 		
 		options = new Button("Images/optionsButtonUp.png", "Images/optionsButtonDown.png", "options", pc, this);
 		options.setPosition(940, 690);
 		
+		//new
 		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
-		undo.setPosition(1140, 580);
+		undo.setPosition(1140, 480);
 		
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "intermediate", pc);
 		next.setPosition(940, 780);
@@ -163,6 +171,8 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	@Override
 	public void restartMap() {
 		map.resetMap(player);
+		playerStack.clear();
+		mapStack.clear();
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
 		if (this.getKeyListeners() == null) {
 			this.addKeyListener(player);
@@ -185,6 +195,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		if(mapStack.isEmpty()){
 			return;
 		}
+		player.decreaseMoves();
 		map = mapStack.peek();
 		player.setPosX(playerStack.peek().getPosX());
 		player.setPosY(playerStack.peek().getPosY());
