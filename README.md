@@ -23,7 +23,4 @@ Demonstartion
 Things that may need to be looked at
 
 5. Font sizing for novice is inconsistent -Kevin
-6. Counter needs to fixed
-7. Think of stuff for difficulty -Everyone
 8. Look into multiplayer - dual listeners
-9. Find value for optimal path to solve map
