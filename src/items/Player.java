@@ -17,7 +17,6 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 	private final int RIGHT = 3;
 	private final int LEFT = 4;
 	
-	private long lastPressProcessed = 0;
 	private int playerState = 1;
 	
 	private int posX, posY, size, spacing;
@@ -156,7 +155,6 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if(System.currentTimeMillis() - lastPressProcessed > 100) {
 			prevX = posX;
 			prevY = posY;
 			
@@ -178,7 +176,9 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 					moving = true;
 					playerState = RIGHT;
 				}
-			} else if (playerNum == 2) {
+			} 
+			
+			if (playerNum == 2) {
 				if (e.getKeyCode() == KeyEvent.VK_W) {
 					posY--;
 					moving = true;
@@ -196,10 +196,7 @@ public class Player extends JComponent implements KeyListener,Cloneable{
 					moving = true;
 					playerState = RIGHT;
 				}
-			}
-            lastPressProcessed = System.currentTimeMillis();
-            
-        }   
+			}   
 		repaint();
 	}
 
