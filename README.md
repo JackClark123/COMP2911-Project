@@ -22,5 +22,4 @@ Demonstartion
 
 Things that may need to be looked at
 
-5. Font sizing for novice is inconsistent -Kevin
 8. Look into multiplayer - dual listeners
