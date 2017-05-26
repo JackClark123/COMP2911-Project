@@ -33,6 +33,7 @@ public class Box {
 	public void print(Graphics g) {
 		Image cross = img.getImage();
 		g.drawImage(cross, posX * spacing, posY * spacing, size, size, null);
+		img = new ImageIcon(wallImage);
 	}
 	
 	public void setPosition(int posX, int posY) {
@@ -52,4 +53,7 @@ public class Box {
 		return size;
 	}
 
+	public void setImage(String image){
+		img = new ImageIcon(image);
+	}
 }
