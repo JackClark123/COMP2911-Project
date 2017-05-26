@@ -281,7 +281,6 @@ public class Map implements Cloneable{
 	}
 	
 	public void paint(Graphics g) {
-		paintGrid(g);
 		paintWalls(g);
 		paintCrosses(g);
 		paintBoxes(g);
