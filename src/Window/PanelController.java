@@ -52,9 +52,6 @@ public class PanelController extends JPanel{
 		game = new PlayGame(this);
 		multiplayer = new Multiplayer(this);
 		diffSelect = new DifficultySelect(this);
-		novice = new Novice(this);
-		intermediate = new Intermediate(this);
-		expert = new Expert(this);
 		options = new Options(this);
 		multiplayerPaused = new MultiplayerPaused(this);
 		objective = new Objective(this);
@@ -64,9 +61,6 @@ public class PanelController extends JPanel{
 		this.add(game, "game");
 		this.add(multiplayer, "multiplayer");
 		this.add(diffSelect, "diffselect");
-		this.add(novice, "novice");
-		this.add(intermediate, "intermediate");
-		this.add(expert, "expert");
 		this.add(options, "options");
 		this.add(multiplayerPaused, "multiplayerPaused");
 		this.add(objective, "objective");
