@@ -30,7 +30,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	
 	private GameInfo info;
 	private Player player;
-	private boolean listenerActive = true;
 	
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
@@ -41,7 +40,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	private Button restart, options, next,undo;
 
 	public Intermediate(PanelController pc) {
-		
 		background = new ImageIcon("Images/background.png");
 		img = background.getImage();
 
@@ -54,30 +52,29 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 		this.setPreferredSize(new Dimension(1280, 900));
 
-		file = new ReadFile("input.txt");
+		file = new ReadFile("Levels/Intermediate/Intermediate1");
 		map = file.getMap();
 		map.generateMap();
-		//
+		
 		mapStack = new Stack<Map>();
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
 
 		info = new GameInfo(900, 0, "intermediate");
 		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
-		//
+		
 		Player playerPre = player.clone();
 		playerStack = new Stack<Player>();
 		playerStack.push(playerPre);
 
-		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
-		restart.setPosition(1040, 580);
+		restart = new Button("Images/restartLevelUp.png", "Images/restartLevelDown.png", "restart", pc, this);
+		restart.setPosition(940, 580);
 		
 		options = new Button("Images/optionsButtonUp.png", "Images/optionsButtonDown.png", "options", pc, this);
 		options.setPosition(940, 690);
 		
-		//new
 		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
-		undo.setPosition(1140, 480);
+		undo.setPosition(1140, 580);
 		
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "intermediate", pc);
 		next.setPosition(940, 780);
@@ -85,7 +82,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		//this.addKeyListener(player);
 		this.addKeyListener(this);
 		this.addMouseMotionListener(this);
-		this.addKeyListener(player);
 		this.addMouseListener(options);
 		this.addMouseMotionListener(options);
 		this.addMouseListener(next);
@@ -106,7 +102,7 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), null);
-		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
+		//map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 
 		map.paint(g);
 		player.paint(g);
@@ -116,7 +112,6 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 		
 		if (map.mapComplete() == true) {
 			this.removeKeyListener(player);
-			listenerActive = false;
 		}
 
 		info.print(g);
@@ -135,6 +130,9 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+		player.keyPressed(e);
+		map.playerCollisonHandling(player.getPosX(), player.getPosY(), player.getPrevX(), player.getPrevY(), player);
 		
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
@@ -166,9 +164,8 @@ public class Intermediate extends JPanel implements GameState, KeyListener, Mous
 	public void restartMap() {
 		map.resetMap(player);
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
-		if (listenerActive == false) {
+		if (this.getKeyListeners() == null) {
 			this.addKeyListener(player);
-			listenerActive = true;
 		}
 		map.setNumBoxesInPlace(0);
 	}
