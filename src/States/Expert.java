@@ -9,11 +9,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import Map.GenerateMap;
 import Map.Map;
 import Map.ReadFile;
 import PlayGame.GameInfo;
@@ -33,6 +35,8 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	private Stack<Map> mapStack;
 	private Stack<Player> playerStack;
 	
+	private GenerateMap generator;
+	
 	private ImageIcon background;
 	private Image img;
 	
@@ -51,15 +55,19 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 
 		this.setPreferredSize(new Dimension(1280, 900));
 
-		file = new ReadFile("input.txt");
-		map = file.getMap();
+		int max=20;
+        int min=10;
+        Random random = new Random();
+        int s = random.nextInt(max)%(max-min+1) + min;
+		generator = new GenerateMap(s, 4, 9, 70);
+		map = generator.getMap();
 		map.generateMap();
 
 		mapStack = new Stack<Map>();
 		Map mapPre = map.clone();
 		mapStack.push(mapPre);
 
-		info = new GameInfo(900, 0, "intermediate");
+		info = new GameInfo(900, 0, "expert");
 		player = new Player(map.getPlayerX(), map.getPlayerY(), map.getGridSpacing(), map.getGridSpacing());
 		
 		Player playerPre = player.clone();
@@ -75,7 +83,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
 		undo.setPosition(1140, 580);
 		
-		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "intermediate", pc);
+		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "expert", pc);
 		next.setPosition(940, 780);
 
 		this.addKeyListener(this);
@@ -160,6 +168,8 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 	@Override
 	public void restartMap() {
 		map.resetMap(player);
+		playerStack.clear();
+		mapStack.clear();
 		player.setPosition(map.getPlayerX(), map.getPlayerY());
 		if (this.getKeyListeners() == null) {
 			this.addKeyListener(player);
@@ -183,6 +193,7 @@ public class Expert extends JPanel implements GameState, KeyListener, MouseMotio
 		if(mapStack.isEmpty()){
 			return;
 		}
+		player.decreaseMoves();
 		map = mapStack.peek();
 		player.setPosX(playerStack.peek().getPosX());
 		player.setPosY(playerStack.peek().getPosY());

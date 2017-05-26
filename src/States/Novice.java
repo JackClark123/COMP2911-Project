@@ -73,15 +73,14 @@ public class Novice extends JPanel implements GameState, KeyListener, MouseMotio
 		playerStack.push(playerPre);
 
 
-		restart = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "restart", pc, this);
-		restart.setPosition(1040, 580);
+		restart = new Button("Images/restartLevelUp.png", "Images/restartLevelDown.png", "restart", pc, this);
+		restart.setPosition(940, 580);
 		
 		options = new Button("Images/optionsButtonUp.png", "Images/optionsButtonDown.png", "options", pc, this);
 		options.setPosition(940, 690);
 		
-		//new
 		undo = new Button("Images/resetButtonUp.png", "Images/resetButtonDown.png", "undo", pc, this);
-		undo.setPosition(1140, 480);
+		undo.setPosition(1140, 580);
 		
 		next = new Button("Images/newMapButtonUp.png", "Images/newMapButtonDown.png", "novice", pc);
 		next.setPosition(940, 780);
