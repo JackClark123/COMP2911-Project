@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 public class Cross {
 
-	private final String wallImage = "Images/greencross.png";
+	private final String wallImage = "Images/hayPile.png";
 	private int posX, posY, size, spacing;
 	private ImageIcon img;
 	
@@ -27,7 +27,7 @@ public class Cross {
 
 	public void print(Graphics g) {
 		Image cross = img.getImage();
-		g.drawImage(cross, posX * spacing, posY * spacing, size, size, null);
+		g.drawImage(cross, posX * spacing + size/4, posY * spacing + size/4, size/2, size/2, null);
 	}
 	
 	public void setPosition(int posX, int posY) {
