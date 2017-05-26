@@ -2,29 +2,17 @@ package Map;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import items.Box;
 import items.Cross;
 import items.Player;
 import items.Wall;
 
-public class MultiplayerMap implements Cloneable, LineListener {
+public class MultiplayerMap implements Cloneable{
 
 	private final int EMPTY = 0;
 	private final int WALL = 1;
@@ -140,7 +128,6 @@ public class MultiplayerMap implements Cloneable, LineListener {
 			if (orginalMapArrayList.get(temp1.getY()).get(temp1.getX()) == CROSS) {
 				numBoxes++;
 				if (numBoxes > numBoxesInPlace) {
-					play("Sounds/correct.wav");
 				}
 			}
 			
@@ -152,35 +139,6 @@ public class MultiplayerMap implements Cloneable, LineListener {
 			player.incrementMoves();
 		}
 	}
-	
-	void play(String audioFilePath) {
-        File audioFile = new File(audioFilePath);
- 
-        try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
- 
-            AudioFormat format = audioStream.getFormat();
- 
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
- 
-            Clip audioClip = (Clip) AudioSystem.getLine(info);
- 
-            audioClip.addLineListener(this);
- 
-            audioClip.open(audioStream);
-             
-            audioClip.start();
-             
-             
-        } catch (UnsupportedAudioFileException ex) {
-            ex.printStackTrace();
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-         
-    }
 	
 	public void playerCollisonHandling(int posX, int posY, int prevX, int prevY, Player player) {
 		if (offset != 0) {
@@ -368,7 +326,6 @@ public class MultiplayerMap implements Cloneable, LineListener {
 	public void paintWinner(Graphics g) {
 		if (mapComplete()) {
 			if (completed == false) {
-				play("Sounds/winner.wav");
 				completed = true;
 			}
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50)); 
@@ -419,12 +376,6 @@ public class MultiplayerMap implements Cloneable, LineListener {
 
 	public void setNumBoxesInPlace(int numBoxesInPlace) {
 		this.numBoxesInPlace = numBoxesInPlace;
-	}
-
-	@Override
-	public void update(LineEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	
