@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 
 FILES=$(find src -iname "*.java")
